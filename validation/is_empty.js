@@ -2,7 +2,6 @@
 // Value -> the value you need to check if it's not empty
 // @returns
 // true if empty, otherwise false
-// Contributor : Mahmoud Ali
 const isEmpty = value =>
   value === undefined ||
   value === null ||
