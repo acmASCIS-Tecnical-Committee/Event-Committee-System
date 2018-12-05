@@ -17,11 +17,11 @@ const SpaceSchema = new Schema({
     required: false
   },
   address: {
-    Link: {
+    link: {
       type: String,
       required: true
     },
-    Zone: {
+    zone: {
       type: String,
       required: true
     }
