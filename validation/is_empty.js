@@ -1,5 +1,5 @@
 // @Params
-// Value -> the value you need to check if it's not empty
+// Value -> the value you need to check if it's empty or not
 // @returns
 // true if empty, otherwise false
 const isEmpty = value =>
