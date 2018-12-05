@@ -12,7 +12,7 @@ module.exports = function validateSpaceInput(data) {
   let notes_critera = { min: 0, max: 500 };
 
   // Name: Required, Not empty, between 6 and 100.
-  if (!validator.isLength(data.name, name_criteria)) {
+  if (isEmpty(data.name) || !validator.isLength(data.name, name_criteria)) {
     errors.name = "Name length should be between 6 and 10 characters";
   }
 
@@ -21,25 +21,34 @@ module.exports = function validateSpaceInput(data) {
     errors.email = "This email is not valid";
   }
 
-  // address.link : Required, Not empty,max 300.
-  if (!validator.isURL(data.address.link, { protocols: ["https"] })) {
+  // address.link : Required, valid URL, using https.
+  if (
+    isEmpty(data.address.link) ||
+    !validator.isURL(data.address.link, { protocols: ["https"] })
+  ) {
     errors.address.link =
-      "Provide a valid google maps link it must be using https protocol";
+      "You must provide a valid google maps link, it must use https protocol";
   }
 
   // address.zone : Required, Not empty, max 100
-  if (!validator.isLength(data.address.link, { min: 1, max: 100 })) {
-    errors.address.zone = "Provide a valid zone";
+  if (
+    isEmpty(data.address.zone) ||
+    !validator.isLength(data.address.zone, { max: 100 })
+  ) {
+    errors.address.zone = "You must provide a valid zone";
   }
 
   // mobile: non empty array
-  if (!Array.isArray(data.mobile)) {
-    errors.mobile = "Provide at least one number";
+  if (!Array.isArray(data.mobile) || data.mobile.length < 1) {
+    errors.mobile = "You must provide at least one number";
   } else {
     // each mobile number must be valid egyptian mobile number
     let subErrors = {};
     for (var i = 0; i < data.mobile.length; i++) {
-      if (!validator.isMobilePhone(data.mobile[i], { locale: ["ar-EG"] })) {
+      if (
+        isEmpty(data.mobile[i]) ||
+        !validator.isMobilePhone(data.mobile[i], { locale: ["ar-EG"] })
+      ) {
         subErrors[i] = "Not a valid egyptian mobile number";
       }
     }
@@ -47,11 +56,12 @@ module.exports = function validateSpaceInput(data) {
   }
 
   // rooms: non empty array
-  if (!Array.isArray(data.rooms)) {
-    errors.rooms = "Fill at least one room data";
+  if (!Array.isArray(data.rooms) || data.rooms.length < 1) {
+    errors.rooms = "Add at least one room data";
   } else {
     // each room must have capacity and a price and name, others has max 500 chars
     let subErrors = {};
+
     for (var i = 0; i < data.rooms.length; i++) {
       // capacity: required, integer
       if (
@@ -78,12 +88,18 @@ module.exports = function validateSpaceInput(data) {
       }
 
       // special_cases: optional, max 500 chars
-      if (isLength(data.rooms[i].special_cases, notes_criteria)) {
+      if (
+        !isEmpty(data.room[i].special_cases) &&
+        !validator.isLength(data.rooms[i].special_cases, notes_criteria)
+      ) {
         subError[i].special_cases = "Maximum 500 characters";
       }
 
       // notes: optional, max 500 chars
-      if (isLength(data.rooms[i].notes, notes_criteria)) {
+      if (
+        !isEmpty(data.room[i].notes) &&
+        !validator.isLength(data.rooms[i].notes, notes_criteria)
+      ) {
         subError[i].notes = "Maximum 500 characters";
       }
     }
@@ -91,7 +107,10 @@ module.exports = function validateSpaceInput(data) {
   }
 
   // notes: optional, 500 max
-  if (!validator.isLength(data.notes, notes_critera)) {
+  if (
+    !isEmpty(data.room[i].notes) &&
+    !validator.isLength(data.notes, notes_critera)
+  ) {
     errors.notes = "Maximum 500 characters";
   }
 
@@ -110,16 +129,17 @@ module.exports = function validateSpaceInput(data) {
       }
 
       // name: required, 6:100
-      if (!validator.isLength(data.connections[i].name, name_criteria)) {
+      if (
+        isEmpty(data.connections[i].name) ||
+        !validator.isLength(data.connections[i].name, name_criteria)
+      ) {
         subErrors[i].name = "Name must be between 6 and 100 letters";
       }
 
       // notes: optional, 500 max
       if (
-        !isEmpty(
-          data.connections[i].notes &&
-            !validator.isLength(data.connections[i].notes, notes_criteria)
-        )
+        !isEmpty(data.connections[i].notes) &&
+        !validator.isLength(data.connections[i].notes, notes_criteria)
       ) {
         subError[i].notes = "Maximum 500 letter";
       }
