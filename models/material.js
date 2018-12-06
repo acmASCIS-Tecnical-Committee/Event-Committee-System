@@ -6,3 +6,27 @@ const mongoose = require("mongoose");
 
 // use mongo schema as Schema
 const Schema = mongoose.Schema;
+
+
+const materialSchema = new Schema({
+    name :{
+        type:String,
+        required:true
+    },
+    notes :{
+        type:String,
+        required:false
+    },
+    stores:[{
+      //to do fix ref
+        store_id:Schema.Types.ObjectId,
+        price:Number,
+        ref:"store"
+    }]
+});
+
+
+module.exports = material = mongoose.model('material',materialSchema);
+
+
+
