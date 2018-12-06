@@ -10,7 +10,7 @@ router.get("/test", (req, res) => {
 router.post("/login", (req, res) => {
   const { errors, isValid } = validateLoginInput(req.body);
   if (!isValid) {
-    res.status(400).json(error);
+    res.status(400).json(errors);
   }
 
   const email = req.body.email;
