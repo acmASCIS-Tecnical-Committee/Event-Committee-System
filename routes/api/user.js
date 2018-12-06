@@ -7,7 +7,7 @@ router.get("/test", (req, res) => {
   res.json("Testing user route");
 });
 
-router.get("/login", (req, res) => {
+router.post("/login", (req, res) => {
   const { errors, isValid } = validateLoginInput(req.body);
   if (!isValid) {
     res.status(400).json(error);
@@ -19,7 +19,7 @@ router.get("/login", (req, res) => {
   res.json({
     emailbta3ak: { email },
     passwordk: { password },
-    msg: "men webdeveloper naww"
+    msg: "men webdeveloper naww??"
   });
 });
 
