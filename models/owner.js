@@ -6,3 +6,25 @@ const mongoose = require("mongoose");
 
 // use mongo schema as Schema
 const Schema = mongoose.Schema;
+
+const ownerSchema = new Schema({
+  name: {
+    type: String,
+    required: true
+  },
+  email: {
+    type: String,
+    required: true
+  },
+  mobile: {
+    type: [String],
+    required: true
+  },
+  social_media: {
+    type: String,
+    required: true
+  }
+});
+
+// name of the database
+module.exports = owner = mongoose.model("owner", ownerSchema);
