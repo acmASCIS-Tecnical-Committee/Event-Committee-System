@@ -1,7 +1,6 @@
-// Def: Owner is a crew/non crew person who owns 0 or more resources
-// Data details can be found on a trello card named the same name as this file
-// this is a schema for how the owner instance will look like in the DB
-// you will need mongoose 'mongoDB' to import the schema module
+// @Def: Owner is a crew/non crew person who owns 0 or more resources
+// @Name: owners
+// @Relation: owner has one or more resource, so resources refrence this schema (many to one)
 const mongoose = require("mongoose");
 
 // use mongo schema as Schema
@@ -13,6 +12,7 @@ const ownerSchema = new Schema({
     required: true
   },
   email: {
+    // should be unique
     type: String,
     required: true
   },
@@ -26,5 +26,4 @@ const ownerSchema = new Schema({
   }
 });
 
-// name of the database
-module.exports = owner = mongoose.model("owner", ownerSchema);
+module.exports = owner = mongoose.model("owners", ownerSchema);
