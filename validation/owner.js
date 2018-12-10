@@ -13,7 +13,6 @@ const validator = require("validator");
 const isEmpty = require("./is_empty");
 
 module.exports = function validateOwnerInput(data) {
-  // your code goes here
   let errors = {};
 
   // Fixed name criteria
