@@ -1,3 +1,12 @@
+// @Def: Function to check if the space data is sufficient
+// @Name: use validateSpaceInput() after including
+// @Params:
+// 1. Data submitted from the add new co-working space form
+// Req: (name, address(zone,link), at least one mobile number, at least one room data, social_media, array of open, close times)
+// @returns
+// 1. errors: object contain error in each field, example : email= not a valid email
+// 2. isValid: True if it found no errors, False otherwise
+
 // to use some built in validators
 const validator = require("validator");
 // now you can use isEmpty(anything) to check if it's empty or not
