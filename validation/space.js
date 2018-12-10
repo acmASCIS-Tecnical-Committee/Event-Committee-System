@@ -11,7 +11,7 @@ module.exports = function validateSpaceInput(data) {
   // Fixed notes criteria
   let notes_critera = { min: 0, max: 500 };
 
-  // Name: Required, Not empty, between 6 and 100.
+  // name: Required, Not empty, between 6 and 100.
   if (isEmpty(data.name) || !validator.isLength(data.name, name_criteria)) {
     errors.name = "Name length should be between 6 and 10 characters";
   }
