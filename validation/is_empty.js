@@ -1,3 +1,5 @@
+// @Def: Function to check if the data is empty or not
+// @Name: use isEmpty()
 // @Params
 // Value -> the value you need to check if it's empty or not
 // @returns
