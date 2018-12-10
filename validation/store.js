@@ -1,3 +1,12 @@
+// @Def: Function to check if the store data is sufficient
+// @Name: use validateStoreInput() after including
+// @Params:
+// 1. Data submitted from the add new store form
+// Req: (address, at least one mobile number, at least one room data, array of (open, close) times)
+// @returns
+// 1. errors: object contain error in each field, example : email= not a valid email
+// 2. isValid: True if it found no errors, False otherwise
+
 // to use some built in validators
 const validator = require("validator");
 // now you can use isEmpty(anything) to check if it's empty or not
