@@ -3,12 +3,37 @@ const validator = require("validator");
 // now you can use isEmpty(anything) to check if it's empty or not
 const isEmpty = require("./is_empty");
 
-// data is the data submitted by the form, you will find the name of the attributes in the trello card
-// you should return every error you got in the errors.field = "message of the error"
-// for example errors.name = "Name must have between 6 and 100 characters"
 module.exports = function validateMaterialInput(data) {
-  // your code goes here
   let errors = {};
+
+  let name = { min: 6, max: 100 };
+  let notes = { max: 500 };
+
+  if (isEmpty(data.name)) {
+    errors.name = "Enter your name";
+  } else if (validator.isLength(data.name, name)) {
+    errors.name = "Your name can contain at least 6 char and at most 100 char";
+  }
+
+  if (!isEmpty(data.notes) && validator.isLength(data.notes, notes)) {
+    errors.notes = "You can enter maximum 500 char";
+  }
+
+  if (!Array.isArray(data.stores) || data.stores.length() < 1) {
+    errors.stores = "You have to enter alest one store";
+  }
+
+  if (isEmpty(data.stores.price)) {
+    errors.stores.price = "Enter the price";
+  }
+  if (
+    validator.isInt(data.stores.price) ||
+    validator.isDecimal(data.stores.price)
+  ) {
+  } else {
+    errors.stores.price =
+      "Capacity must be filled with integer or decimal value";
+  }
 
   return {
     errors,
