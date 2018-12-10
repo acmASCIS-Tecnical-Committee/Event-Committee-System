@@ -6,3 +6,102 @@ const mongoose = require("mongoose");
 
 // use mongo schema as Schema
 const Schema = mongoose.Schema;
+
+const SpaceSchema = new Schema({
+  name: {
+    type: String,
+    required: true
+  },
+  email: {
+    type: String,
+    required: false
+  },
+  address: {
+    link: {
+      type: String,
+      required: true
+    },
+    zone: {
+      type: String,
+      required: true
+    }
+  },
+  mobile: {
+    type: [String],
+    // todo make sure what true here will do
+    required: false
+  },
+  rooms: {
+    type: [
+      {
+        capacity: {
+          type: Number,
+          required: true
+        },
+        price: {
+          type: Number,
+          required: true
+        },
+        special_cases: {
+          type: String,
+          required: false
+        },
+        notes: {
+          type: String,
+          required: false
+        },
+        name: {
+          type: String,
+          required: true
+        }
+        //todo make sure what true here will do
+      }
+    ],
+    //todo make sure what true here will do
+    required: false
+  },
+  notes: {
+    type: String,
+    required: true
+  },
+  connections: {
+    type: [
+      {
+        mobile: {
+          type: String,
+          required: true
+        },
+        name: {
+          type: String,
+          required: true
+        },
+        notes: {
+          type: String,
+          required: false
+        }
+      }
+    ],
+    required: false
+  },
+  opening: {
+    type: [
+      {
+        open: {
+          type: Date,
+          required: true
+        },
+        close: {
+          type: Date,
+          required: true
+        }
+      }
+    ],
+    required: true
+  },
+  social_media: {
+    type: String,
+    required: true
+  }
+});
+
+module.exports = Space = mongoose.model("space", SpaceSchema);
