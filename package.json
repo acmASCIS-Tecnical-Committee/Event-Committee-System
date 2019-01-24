@@ -6,6 +6,7 @@
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
+    "concurrently": "^4.1.0",
     "express": "^4.16.4",
     "jsonwebtoken": "^8.4.0",
     "mongoose": "^5.3.14",
@@ -17,8 +18,13 @@
     "nodemon": "^1.18.7"
   },
   "scripts": {
+    "client-install": "npm install --prefix client",
+    "back-install": "npm install",
+    "configure": "concurrently \"npm run client-install\" \"npm run back-install\"",
     "start": "node server.js",
-    "server": "nodemon server.js"
+    "server": "nodemon server.js",
+    "client": "npm start --prefix client",
+    "system": "concurrently \"npm run server\" \"npm run client\""
   },
   "repository": {
     "type": "git",
