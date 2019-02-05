@@ -12,7 +12,7 @@ module.exports = function validateMaterialInput(data) {
   if (isEmpty(data.name)) {
     errors.name = "Enter your name";
   } else if (validator.isLength(data.name, name)) {
-    errors.name = "Your name can contain at least 6 char and at most 100 char";
+    errors.name = "Your name must contain at least 6 char and at most 100 char";
   }
 
   if (!isEmpty(data.notes) && validator.isLength(data.notes, notes)) {
@@ -20,11 +20,11 @@ module.exports = function validateMaterialInput(data) {
   }
 
   if (!Array.isArray(data.stores) || data.stores.length() < 1) {
-    errors.stores = "You have to enter alest one store";
+    errors.stores = "You have to enter at least one store";
   }
 
   if (isEmpty(data.stores.price)) {
-    errors.stores.price = "Enter the price";
+    errors.stores.price = "You must enter the price";
   }
   if (
     validator.isInt(data.stores.price) ||
