@@ -35,7 +35,7 @@ module.exports = function validateRegisterInput(data) {
 
   if (isEmpty(data.name)) {
     errors.name = "This field is required";
-  } else if (validator.isLength(data.name, name)) {
+  } else if (!validator.isLength(data.name, name)) {
     errors.name = "Your name must contain at least 6 char and at most 100 char";
   }
 
@@ -51,7 +51,7 @@ module.exports = function validateRegisterInput(data) {
     errors.password2 = "Those passwords doesn't match";
   }
 
-  if (!Array.isArray(data.mobile) || data.mobile.length() < 1) {
+  if (!Array.isArray(data.mobile) || data.mobile.length < 1) {
     errors.mobile = "You have to enter at least one mobile number";
   } else {
     // each mobile number must be valid egyptian mobile number
@@ -59,7 +59,7 @@ module.exports = function validateRegisterInput(data) {
     for (var i = 0; i < data.mobile.length; i++) {
       if (
         isEmpty(data.mobile[i]) ||
-        !validator.isMobilePhone(data.mobile[i], { locale: ["ar-EG"] })
+        !validator.isMobilePhone(data.mobile[i], "ar-EG")
       ) {
         subErrors[i] = "Not a valid egyptian mobile number";
       }
