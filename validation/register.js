@@ -1,3 +1,12 @@
+// @Def: Function to check if the login data is right
+// @Name: use validateLoginInput()
+// @Params:
+// 1. Data submitted from the login form
+// Req: (name, email, password, mobile number)
+// @returns
+// 1. errors: object contain error in each field, example : email= not a valid email
+// 2. isValid: True if it found no errors, False otherwise
+
 // to use some built in functions in validator
 const validator = require("validator");
 
@@ -43,7 +52,7 @@ module.exports = function validateRegisterInput(data) {
   }
 
   if (!Array.isArray(data.mobile) || data.mobile.length() < 1) {
-    errors.mobile = "You have to enter at lest one mobile number";
+    errors.mobile = "You have to enter at least one mobile number";
   } else {
     // each mobile number must be valid egyptian mobile number
     let subErrors = {};
@@ -56,10 +65,6 @@ module.exports = function validateRegisterInput(data) {
       }
     }
     if (!isEmpty(subErrors)) errors.mobile = subErrors;
-  }
-
-  if (!isEmpty(data.address) && !validator.isLength(data.address, address)) {
-    errors.address = "You can enter maximum 500 char";
   }
 
   return {
