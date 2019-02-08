@@ -12,7 +12,7 @@ const jwt = require("jsonwebtoken");
 const keys = require("../../config/keys");
 // to get the expire time for a login session
 const settings = require("../../config/settings");
-//
+// to authenticate the private routes
 const passport = require("passport");
 
 // validation functions
