@@ -9,30 +9,27 @@ const Schema = mongoose.Schema;
 
 const storeSchema = new Schema({
   address: {
-    Link: {
+    link: {
       type: String,
       required: true
     },
-    Zone: {
+    zone: {
       type: String,
       required: true
     }
   },
-  opening: {
-    type: [
-      {
-        open: {
-          type: Date,
-          required: true
-        },
-        close: {
-          type: Date,
-          required: true
-        }
+  opening: [
+    {
+      open: {
+        type: String,
+        required: true
+      },
+      close: {
+        type: String,
+        required: true
       }
-    ],
-    required: true
-  },
+    }
+  ],
   notes: {
     type: String,
     required: false
@@ -41,10 +38,11 @@ const storeSchema = new Schema({
     type: String,
     required: false
   },
-  mobile: {
-    type: [String],
-    required: true
-  },
+  mobile: [
+    {
+      type: String
+    }
+  ],
   updated: {
     type: Date,
     default: Date.now
