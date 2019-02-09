@@ -15,28 +15,18 @@ const userSchema = new Schema({
     type: String,
     required: true
   },
-  pasword: {
+  password: {
     type: String,
     required: true
   },
   mobile: [
     {
-      number: String
+      type: String
     }
   ],
   type: {
     type: String,
     default: "user"
-  },
-  address: {
-    Link: {
-      type: String,
-      required: true
-    },
-    Zone: {
-      type: String,
-      required: true
-    }
   }
 });
 
