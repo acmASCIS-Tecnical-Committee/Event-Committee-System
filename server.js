@@ -5,6 +5,7 @@ const passport = require("passport"); // use passport to validate JWT
 
 const store = require("./routes/api/store");
 const user = require("./routes/api/user");
+const owner = require("./routes/api/owner");
 
 const app = express();
 
@@ -33,6 +34,8 @@ require("./config/passport")(passport);
 app.use("/api/store", store);
 // route to user login/register
 app.use("/api/user", user);
+
+app.use("/api/owner", owner);
 
 const port = 5000; // use localhost:5000
 
