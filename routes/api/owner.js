@@ -1,20 +1,28 @@
+//To use Router
 const express = require("express");
-
+//To acsses GET && POST Requests from Router
 const router = express.Router();
-
+//To acsses Owner database schema
 const Owner = require("../../models/owner");
 
-const bcrypt = require("bcryptjs");
+//To use Validation unction
+const validateOwnerInput = require("../../validation/owner");
 
-const validateRegisterInput = require("../../validation/owner");
-
+//To test if it work
 router.get("/test", (req, res) => {
   res.json("Owner route works");
 });
 
+// @route POST api/owner/register
+// @desc Register new owner
+// @access Public
+// @return status :-
+// 400 : if there's error(s), and the errors messages are returned
+//       each with prefix describing where the error happened "email: already exists"
+// 200 : if the owner is registered successfully, and the owner data is returned with the password encrypted
+
 router.post("/register", (req, res) => {
-  console.log("******" + req.body.name + req.body.email);
-  const { errors, isValid } = validateRegisterInput(req.body);
+  const { errors, isValid } = validateOwnerInput(req.body);
   if (!isValid) {
     res.status(400).json(errors);
   } else {
@@ -25,19 +33,14 @@ router.post("/register", (req, res) => {
         const newOwner = new Owner({
           name: req.body.name,
           email: req.body.email,
-          password: req.body.password,
           mobile: req.body.mobile,
           social_media: req.body.social_media
         });
-        bcrypt.genSalt(10, (error, salt) => {
-          bcrypt.hash(newOwner.password, salt, (error, hash) => {
-            newOwner.password = hash;
-            newOwner
-              .save()
-              .then(owner => req.json(owner)) //????
-              .catch(console.log(err));
-          });
-        });
+        //To save new owner in database
+        newOwner
+          .save()
+          .then(owner => res.json(owner))
+          .catch(err => console.log(err));
       }
     });
   }
