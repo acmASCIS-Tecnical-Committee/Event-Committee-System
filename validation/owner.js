@@ -13,6 +13,7 @@ const validator = require("validator");
 const isEmpty = require("./is_empty");
 
 module.exports = function validateOwnerInput(data) {
+  console.log(data); //#
   let errors = {};
 
   // Fixed name criteria
@@ -46,6 +47,7 @@ module.exports = function validateOwnerInput(data) {
   }
 
   // social_media: required, URL
+  //####
   if (!isEmpty(data.social_media) || !validator.isURL(data.social_media)) {
     errors.social_media = "Enter a valid facebook URL";
   }
