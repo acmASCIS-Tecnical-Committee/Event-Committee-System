@@ -21,6 +21,7 @@ const resourceSchema = new Schema({
     required: false
   },
   owner: {
+    required: true,
     // ID refrences to "owners database"
     type: Schema.Types.ObjectId,
     ref: "owners"
