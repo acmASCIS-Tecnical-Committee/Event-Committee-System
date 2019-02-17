@@ -5,7 +5,7 @@ const passport = require("passport"); // use passport to validate JWT
 
 const store = require("./routes/api/store");
 const user = require("./routes/api/user");
-
+//
 const space = require("./routes/api/space");
 const app = express();
 

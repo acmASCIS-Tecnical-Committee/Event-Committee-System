@@ -13,7 +13,7 @@ const validator = require("validator");
 const isEmpty = require("./is_empty");
 
 module.exports = function validateSpaceInput(data) {
-  console.log(data.rooms.name + "***********************");
+  //console.log(data.address[0].link + "***********************");
   let errors = {};
   // Fixed name criteria
   let name_criteria = { min: 6, max: 100 };

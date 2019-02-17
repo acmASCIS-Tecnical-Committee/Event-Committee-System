@@ -31,27 +31,49 @@ router.post("/register", (req, res) => {
       if (space) {
         return res.status(400).json({ name: "This Space already exists" });
       } else {
-        const newResource = new Space({
+        const newSpace = new Space({
           name: req.body.name,
           email: req.body.email,
-          address_link: req.body.address.link,
-          address_zone: req.body.address.zone,
+          //address_link: req.body.address.link,
+          // address_zone: req.body.address.zone,
+          address: {
+            link: req.body.address.link,
+            zone: req.body.address.zone
+          },
+
           mobile: req.body.mobile,
-          rooms_name: req.body.rooms.name,
-          rooms_capacity: req.body.rooms.capacity,
-          rooms_price: req.body.rooms.price,
-          rooms_special_cases: req.body.rooms.special_cases,
-          rooms_notes: req.body.rooms.notes,
+          // rooms_name: req.body.rooms.name,
+          // rooms_capacity: req.body.rooms.capacity,
+          // rooms_price: req.body.rooms.price,
+          // rooms_special_cases: req.body.rooms.special_cases,
+          // rooms_notes: req.body.rooms.notes,
+          rooms: {
+            name: req.body.rooms.name,
+            capacity: req.body.rooms.capacity,
+            price: req.body.rooms.price,
+            special_cases: req.body.rooms.special_cases,
+            notes: req.body.rooms.notes
+          },
           notes: req.body.notes,
-          connections_name: req.body.connections.name,
-          connections_mobile: req.body.connections.mobile,
-          connections_notes: req.body.connections.notes,
-          opening_open: req.body.opening.open,
-          opening_close: req.body.opening.close,
+          // connections_name: req.body.connections.name,
+          // connections_mobile: req.body.connections.mobile,
+          // connections_notes: req.body.connections.notes,
+          connections: {
+            name: req.body.connections.name,
+            mobile: req.body.connections.mobile,
+            notes: req.body.connections.notes
+          },
+          // opening_open: req.body.opening.open,
+          // opening_close: req.body.opening.close,
+          opening: {
+            open: req.body.opening.open,
+            close: req.body.opening.close
+          },
           social_media: req.body.social_media
         });
+
         //To save new space in database
-        newResource
+        newSpace
           .save()
           .then(space => res.json(space))
           .catch(err => console.log(err));
