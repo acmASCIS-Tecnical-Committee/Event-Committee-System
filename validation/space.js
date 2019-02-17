@@ -13,6 +13,7 @@ const validator = require("validator");
 const isEmpty = require("./is_empty");
 
 module.exports = function validateSpaceInput(data) {
+  console.log(data.rooms.name + "***********************");
   let errors = {};
   // Fixed name criteria
   let name_criteria = { min: 6, max: 100 };
@@ -31,10 +32,7 @@ module.exports = function validateSpaceInput(data) {
   }
 
   // address.link : Required, valid URL, using https.
-  if (
-    isEmpty(data.address.link) ||
-    !validator.isURL(data.address.link, { protocols: ["https"] })
-  ) {
+  if (isEmpty(data.address.link) || !validator.isURL(data.address.link)) {
     errors.address.link =
       "You must provide a valid google maps link, it must use https protocol";
   }
@@ -174,7 +172,7 @@ module.exports = function validateSpaceInput(data) {
   }
 
   // social_media: required, URL
-  if (!isEmpty(data.social_media) || !validator.isURL(data.social_media)) {
+  if (isEmpty(data.social_media) || !validator.isURL(data.social_media)) {
     errors.social_media = "Enter a valid facebook URL";
   }
   return {

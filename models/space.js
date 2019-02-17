@@ -62,7 +62,7 @@ const SpaceSchema = new Schema({
   },
   notes: {
     type: String,
-    required: true
+    required: false
   },
   connections: {
     type: [

@@ -6,6 +6,7 @@ const passport = require("passport"); // use passport to validate JWT
 const store = require("./routes/api/store");
 const user = require("./routes/api/user");
 
+const space = require("./routes/api/space");
 const app = express();
 
 // Body parser middleware
@@ -33,6 +34,9 @@ require("./config/passport")(passport);
 app.use("/api/store", store);
 // route to user login/register
 app.use("/api/user", user);
+
+//route to space register
+app.use("/api/space", space);
 
 const port = 5000; // use localhost:5000
 
