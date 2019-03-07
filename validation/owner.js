@@ -37,7 +37,7 @@ module.exports = function validateOwnerInput(data) {
     for (var i = 0; i < data.mobile.length; i++) {
       if (
         isEmpty(data.mobile[i]) ||
-        !validator.isMobilePhone(data.mobile[i], { locale: ["ar-EG"] })
+        !validator.isMobilePhone(data.mobile[i], "ar-EG")
       ) {
         subErrors[i] = "Not a valid egyptian mobile number";
       }
@@ -46,7 +46,7 @@ module.exports = function validateOwnerInput(data) {
   }
 
   // social_media: required, URL
-  if (!isEmpty(data.social_media) || !validator.isURL(data.social_media)) {
+  if (isEmpty(data.social_media) || !validator.isURL(data.social_media)) {
     errors.social_media = "Enter a valid facebook URL";
   }
 

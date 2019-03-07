@@ -9,6 +9,7 @@ const passport = require("passport");
 
 const store = require("./routes/api/store");
 const user = require("./routes/api/user");
+const owner = require("./routes/api/owner");
 
 const resource = require("./routes/api/resource");
 
@@ -39,6 +40,8 @@ require("./config/passport")(passport);
 app.use("/api/store", store);
 // route to user login/register
 app.use("/api/user", user);
+// route to owner register
+app.use("/api/owner", owner);
 
 //route to resource register
 app.use("/api/resource", resource);
