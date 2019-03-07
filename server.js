@@ -10,8 +10,8 @@ const passport = require("passport");
 const store = require("./routes/api/store");
 const user = require("./routes/api/user");
 const owner = require("./routes/api/owner");
-
 const resource = require("./routes/api/resource");
+const space = require("./routes/api/space");
 
 const app = express();
 
@@ -45,6 +45,9 @@ app.use("/api/owner", owner);
 
 //route to resource register
 app.use("/api/resource", resource);
+
+//route to space register
+app.use("/api/space", space);
 
 const port = 5000; // use localhost:5000
 
