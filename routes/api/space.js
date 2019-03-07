@@ -30,47 +30,11 @@ router.post("/register", (req, res) => {
       if (space) {
         return res.status(400).json({ name: "This Space already exists" });
       } else {
-        const newSpace = new Space({
-          name: req.body.name,
-          email: req.body.email,
-
-          address: {
-            link: req.body.address.link,
-            zone: req.body.address.zone
-          },
-
-          mobile: req.body.mobile,
-
-          rooms: {
-            name: req.body.rooms[0].name,
-            capacity: req.body.rooms[0].capacity,
-            price: req.body.rooms[0].price,
-            special_cases: req.body.rooms[0].special_cases,
-            notes: req.body.rooms[0].notes
-          },
-          notes: req.body.notes,
-
-          // connections: {
-          //   name: req.body.connections.name,
-          //   mobile: req.body.connections.mobile,
-          //   notes: req.body.connections.notes
-          // },
-
-          connections: {
-            // req.body.connections,
-            name: req.body.connections[0].name,
-            mobile: req.body.connections[0].mobile,
-            notes: req.body.connections[0].notes //,
-          },
-          //req.body.opening,
-          opening: {
-            open: req.body.opening[0].open,
-            close: req.body.opening[0].close //,
-          },
-
-          //opening: req.body.opening,
-          social_media: req.body.social_media
-        });
+        for (var i = 0; i < 7; i++) {
+          req.body.opening[i].open = Date(req.body.opening[i].open);
+          req.body.opening[i].close = Date(req.body.opening[i].close);
+        }
+        const newSpace = new Space(req.body);
 
         //To save new space in database
 
