@@ -42,10 +42,8 @@ app.use("/api/store", store);
 app.use("/api/user", user);
 // route to owner register
 app.use("/api/owner", owner);
-
 //route to resource register
 app.use("/api/resource", resource);
-
 //route to space register
 app.use("/api/space", space);
 
