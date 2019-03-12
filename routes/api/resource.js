@@ -38,7 +38,9 @@ router.post("/register", (req, res) => {
         //To save new resource in database
         newResource
           .save()
-          .then(resource => res.json(resource))
+          .then(() =>
+            res.status(200).json({ message: "Successfully Registered" })
+          )
           .catch(err => console.log(err));
       }
     });
