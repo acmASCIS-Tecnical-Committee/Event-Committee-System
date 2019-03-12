@@ -38,8 +38,9 @@ module.exports = function validateResourceInput(data) {
   }
 
   // owner: Required.
-  if (isEmpty(data.owner)) {
-    errors.owner = "You must provide an owner";
+
+  if (isEmpty(data.owner.length)) {
+    errors.owners = "You must provide at least one owner";
   }
   return {
     errors,
