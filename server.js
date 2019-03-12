@@ -1,30 +1,16 @@
-<<<<<<< HEAD
-const express = require("express");
-// include express so we can use it -> app
-const mongoose = require("mongoose");
-// to connect to the db
-const bodyParser = require("body-parser");
-// use bodyparser to parse req.body
-const passport = require("passport");
-// use passport to validate JWT
-=======
 const express = require("express"); // include express so we can use it -> app
 const mongoose = require("mongoose"); // to connect to the db
 const bodyParser = require("body-parser"); // use bodyparser to parse req.body
 const passport = require("passport"); // use passport to validate JWT
 const settings = require("./config/settings"); // to import ports from settings
->>>>>>> mahmoudali
 
 // Import APIs
 const store = require("./routes/api/store");
 const user = require("./routes/api/user");
-<<<<<<< HEAD
 const owner = require("./routes/api/owner");
 const resource = require("./routes/api/resource");
 const space = require("./routes/api/space");
-=======
 const material = require("./routes/api/material");
->>>>>>> mahmoudali
 
 const app = express();
 
