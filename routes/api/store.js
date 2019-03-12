@@ -16,14 +16,14 @@ const validateStore = require("../../validation/store");
 // @access public
 // @return message if working
 router.get("/test", (req, res) => {
-  console.log(Store.schema.tree);
   res.json("Testing store page");
 });
 
 // @route POST api/store/register
 // @desc add a new store to the database
-// @access private // logged in users
-// @return msg:saved to the database if success
+// @access private (logged in users only)
+// @return success: {message} if succeded
+// @terminal log errors if there's internal error in server
 router.post(
   "/register",
   passport.authenticate("jwt", { session: false }),
@@ -36,20 +36,18 @@ router.post(
       store => {
         if (!store) {
           const newStore = new Store(req.body);
-          // for (var i = 0; i < req.body.opening.length; i++) {
-          //   newStore.opening[i].open = new Date(req.body.opening[i].open);
-          //   newStore.opening[i].close = new Date(req.body.opening[i].close);
-          // }
-          // res.json(newStore);
           newStore
             .save()
-            .then(store => res.json(store))
+            .then(store =>
+              res.json({ success: "Successfully added to the database" })
+            )
             .catch(err => console.log(err));
         } else {
-          json.status(400).json({ message: "duplicated entry" });
+          json.status(400).json({ message: "Duplicated entry" });
         }
       }
     );
   }
 );
+
 module.exports = router;
