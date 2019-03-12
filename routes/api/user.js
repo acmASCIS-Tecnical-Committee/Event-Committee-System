@@ -33,7 +33,7 @@ router.get("/test", (req, res) => {
 router.post("/register", (req, res) => {
   const { errors, isValid } = validateRegisterInput(req.body);
   if (!isValid) {
-    res.status(400).json(errors);
+    return res.status(400).json(errors);
   } else {
     User.findOne({ email: req.body.email }).then(user => {
       if (user) {

@@ -53,6 +53,8 @@ module.exports = function validateRegisterInput(data) {
 
   if (!Array.isArray(data.mobile) || data.mobile.length < 1) {
     errors.mobile = "You have to enter at least one mobile number";
+  } else if (data.mobile.length > 5) {
+    errors.mobile = "You have to enter at most five mobile numbers";
   } else {
     // each mobile number must be valid egyptian mobile number
     let subErrors = {};

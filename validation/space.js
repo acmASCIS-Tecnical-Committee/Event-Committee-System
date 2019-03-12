@@ -30,12 +30,10 @@ module.exports = function validateSpaceInput(data) {
     errors.email = "This email is not valid";
   }
 
+  let addressError = {};
   // address.link : Required, valid URL, using https.
-  if (
-    isEmpty(data.address.link) ||
-    !validator.isURL(data.address.link, { protocols: ["https"] })
-  ) {
-    errors.address.link =
+  if (isEmpty(data.address.link) || !validator.isURL(data.address.link)) {
+    addressError.link =
       "You must provide a valid google maps link, it must use https protocol";
   }
 
@@ -44,7 +42,11 @@ module.exports = function validateSpaceInput(data) {
     isEmpty(data.address.zone) ||
     !validator.isLength(data.address.zone, { max: 100 })
   ) {
-    errors.address.zone = "You must provide a valid zone";
+    addressError.zone = "You must provide a valid zone";
+  }
+
+  if (!isEmpty(addressError)) {
+    errors.address = addressError;
   }
 
   // mobile: non empty array
@@ -56,7 +58,7 @@ module.exports = function validateSpaceInput(data) {
     for (var i = 0; i < data.mobile.length; i++) {
       if (
         isEmpty(data.mobile[i]) ||
-        !validator.isMobilePhone(data.mobile[i], { locale: ["ar-EG"] })
+        !validator.isMobilePhone(data.mobile[i], "ar-EG")
       ) {
         subErrors[i] = "Not a valid egyptian mobile number";
       }
@@ -98,16 +100,16 @@ module.exports = function validateSpaceInput(data) {
 
       // special_cases: optional, max 500 chars
       if (
-        !isEmpty(data.room[i].special_cases) &&
-        !validator.isLength(data.rooms[i].special_cases, notes_criteria)
+        !isEmpty(data.rooms[i].special_cases) &&
+        !validator.isLength(data.rooms[i].special_cases, notes_critera)
       ) {
         subError[i].special_cases = "Maximum 500 characters";
       }
 
       // notes: optional, max 500 chars
       if (
-        !isEmpty(data.room[i].notes) &&
-        !validator.isLength(data.rooms[i].notes, notes_criteria)
+        !isEmpty(data.rooms[i].notes) &&
+        !validator.isLength(data.rooms[i].notes, notes_critera)
       ) {
         subError[i].notes = "Maximum 500 characters";
       }
@@ -116,10 +118,7 @@ module.exports = function validateSpaceInput(data) {
   }
 
   // notes: optional, 500 max
-  if (
-    !isEmpty(data.room[i].notes) &&
-    !validator.isLength(data.notes, notes_critera)
-  ) {
+  if (!isEmpty(data.notes) && !validator.isLength(data.notes, notes_critera)) {
     errors.notes = "Maximum 500 characters";
   }
 
@@ -130,25 +129,24 @@ module.exports = function validateSpaceInput(data) {
       // mobile: required, valid Ar-EG
       if (
         isEmpty(data.connections[i].mobile) ||
-        !validator.isMobilePhone(data.connections[i].mobile, {
-          locale: ["Ar-EG"]
-        })
+        !validator.isMobilePhone(data.mobile[i], "ar-EG")
       ) {
         subErrors[i].mobile = "Provide a valid egyptian mobile number";
       }
 
       // name: required, 6:100
-      if (
-        isEmpty(data.connections[i].name) ||
-        !validator.isLength(data.connections[i].name, name_criteria)
-      ) {
+      if (isEmpty(data.connections[i].name)) {
+        subErrors[i].name = "Name must be between 6 and 100 letters";
+      }
+
+      if (!validator.isLength(data.connections[i].name, name_criteria)) {
         subErrors[i].name = "Name must be between 6 and 100 letters";
       }
 
       // notes: optional, 500 max
       if (
         !isEmpty(data.connections[i].notes) &&
-        !validator.isLength(data.connections[i].notes, notes_criteria)
+        !validator.isLength(data.connections[i].notes, notes_critera)
       ) {
         subError[i].notes = "Maximum 500 letter";
       }
@@ -160,7 +158,7 @@ module.exports = function validateSpaceInput(data) {
   if (!Array.isArray(data.opening) || data.opening.length != 7) {
     errors.opening = "Please specify the weekly activity of the space";
   } else {
-    let subErros = {};
+    let opening_subErross = {};
     for (var i = 0; i < 7; i++) {
       // open: required, not empty
       if (isEmpty(data.opening[i].open))
@@ -170,11 +168,11 @@ module.exports = function validateSpaceInput(data) {
       if (isEmpty(data.opening[i].close))
         subErros[i].close = "Specify the closing time";
     }
-    if (!isEmpty(subErrors)) errors.opening = subErrors;
+    if (!isEmpty(opening_subErross)) errors.opening = opening_subErross;
   }
 
   // social_media: required, URL
-  if (!isEmpty(data.social_media) || !validator.isURL(data.social_media)) {
+  if (isEmpty(data.social_media) || !validator.isURL(data.social_media)) {
     errors.social_media = "Enter a valid facebook URL";
   }
   return {

@@ -22,7 +22,10 @@ module.exports = function validateResourceInput(data) {
   let notes_critera = { min: 0, max: 500 };
 
   // name: Required, Not empty, between 6 and 100.
-  if (isEmpty(data.name) || !validator.isLength(data.name, name_criteria)) {
+  if (isEmpty(data.name)) {
+    errors.name = "Name is Required";
+  }
+  if (!validator.isLength(data.name, name_criteria)) {
     errors.name = "Name length should be between 6 and 10 characters";
   }
 
@@ -31,12 +34,13 @@ module.exports = function validateResourceInput(data) {
     isEmpty(data.details) ||
     !validator.isLength(data.details, notes_critera)
   ) {
-    errors.name = "Detials should be between 10 and 500 characters";
+    errors.details = "Detials should be between 10 and 500 characters";
   }
 
   // owner: Required.
-  if (isEmpty(data.owner)) {
-    errors.owner = "You must provide an owner";
+
+  if (isEmpty(data.owner.length)) {
+    errors.owners = "You must provide at least one owner";
   }
   return {
     errors,
