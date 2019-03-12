@@ -53,17 +53,14 @@ require("./config/passport")(passport);
 app.use("/api/store", store);
 // route to user API
 app.use("/api/user", user);
-<<<<<<< HEAD
 // route to owner register
 app.use("/api/owner", owner);
 //route to resource register
 app.use("/api/resource", resource);
 //route to space register
 app.use("/api/space", space);
-=======
 // route to material API
 app.use("/api/material", material);
->>>>>>> mahmoudali
 
 // use localhost:5000
 app.listen(settings.backendPort, () =>
