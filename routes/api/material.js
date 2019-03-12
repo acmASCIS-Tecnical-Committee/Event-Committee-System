@@ -38,13 +38,14 @@ router.post(
     Material.findOne({ name: req.body.name }).then(material => {
       if (!material) {
         const newMaterial = new Material(req.body);
-        res.json(newMaterial);
         newMaterial
           .save()
-          .then(material => res.json(material))
+          .then(materiall => {
+            return res.json(materiall);
+          })
           .catch(err => console.log(err));
       } else {
-        json
+        return res
           .status(400)
           .json({ message: "There's already a material with the same name" });
       }
