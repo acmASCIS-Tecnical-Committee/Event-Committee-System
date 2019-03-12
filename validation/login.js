@@ -17,12 +17,12 @@ const isEmpty = require("./is_empty");
 module.exports = function validateLoginInput(data) {
   let errors = {};
 
-  if (isEmpty(data.email) || !validator.isEmail(data.email)) {
-    errors.email = "You must write a valid email";
-  }
-
-  if (isEmpty(data.password)) {
-    errors.password = "You must provied a password";
+  if (
+    isEmpty(data.email) ||
+    !validator.isEmail(data.email) ||
+    isEmpty(data.password)
+  ) {
+    errors.log = "Email or password is incorrect";
   }
 
   return {
