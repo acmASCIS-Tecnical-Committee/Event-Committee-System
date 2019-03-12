@@ -38,23 +38,15 @@ router.post(
     Material.findOne({ name: req.body.name }).then(material => {
       if (!material) {
         const newMaterial = new Material(req.body);
-        // for (var i = 0; i < newMaterial.providers.length; i++) {
-        //   let temp = {};
-        //   Store.findById(
-        //     mongoose.Types.ObjectId(newMaterial.providers[i].store_id)
-        //   ).then(store => {
-        //     temp = store._id;
-        //   });
-        //   newMaterial.providers[i].store_id = temp;
-        // }
-        console.log(newMaterial);
         res.json(newMaterial);
         newMaterial
           .save()
           .then(material => res.json(material))
           .catch(err => console.log(err));
       } else {
-        json.status(400).json({ message: "Duplicated entry" });
+        json
+          .status(400)
+          .json({ message: "There's already a material with the same name" });
       }
     });
   }
