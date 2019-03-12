@@ -12,20 +12,23 @@ const resourceSchema = new Schema({
     type: String,
     required: true
   },
-  updated: {
-    type: Date,
-    default: Date.now
-  },
   details: {
     type: String,
     required: false
   },
-  owner: {
-    required: true,
-    // ID refrences to "owners database"
-    type: Schema.Types.ObjectId,
-    ref: "owners"
-  }
+  owner: [
+    {
+      updated: {
+        type: Date,
+        default: Date.now
+      },
+      ownerId: {
+        // ID refrences to "owners database"
+        type: Schema.Types.ObjectId,
+        ref: "owners"
+      }
+    }
+  ]
 });
 
 module.exports = resource = mongoose.model("resources", resourceSchema);
