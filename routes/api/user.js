@@ -19,14 +19,78 @@ const passport = require("passport");
 const validateLoginInput = require("../../validation/login");
 const validateRegisterInput = require("../../validation/register");
 
+// @route GET api/user/test
+// @desc test the route
+// @access Public
+// @params none
+// @return:-
+// 200 : if the route is working JSON {message}
 router.get("/test", (req, res) => {
-  res.json("User route works");
+  res.json({ message: "User route works" });
 });
+
+// @route GET api/user/:user_id
+// @desc get the user data given the user id
+// @access Public
+// @params user_id: "the required user ID"
+// @return:-
+// 404 : if there is no such user and {"messsage": the error}
+// 200 : if the user is found successfully and all it's data
+// reutrn JSON of the requested user => {name:,email:,mobile:,type:}
+router.get("/:user_id", (req, res) => {
+  User.findById({ _id: req.params.user_id })
+    .then(user => {
+      if (user) {
+        userRequested = new User({
+          name: user.name,
+          email: user.email,
+          mobile: user.mobile,
+          type: user.type
+        });
+        return res.status(200).json(userRequested);
+      } else
+        return res
+          .status(404)
+          .json({ message: "There's no user with the requested ID" });
+    })
+    .catch(err =>
+      res.status(404).json({ message: "There's no user with the requested ID" })
+    );
+});
+
+// @route DELETE api/user/:user_id
+// @desc delete the user with the given id
+// @access Private for the same user only
+// @params user_id: "the required user ID"
+// @return status :-
+// 400/404 : if there is an error with JSON message: "error message"
+// 200 : if the user has been removed with JSON message: "success"
+router.delete(
+  "/:user_id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    User.findOne({ _id: req.params.user_id })
+      .then(user => {
+        if (user) {
+          if (req.user.id === req.params.user_id) {
+            User.findOneAndDelete({ _id: req.params.user_id })
+              .then(user =>
+                res.json({ message: "Your accound has been deleted" })
+              )
+              .catch(err => console.log(err));
+          } else
+            return res.status(400).json({ messgae: "Unauthorized Deletion" });
+        } else return res.status(404).json({ message: "User not found" });
+      })
+      .catch(err => console.log(err));
+  }
+);
 
 // @route POST api/user/register
 // @desc Register new user
 // @access Public
-// @return status :-
+// @params JSON {}
+// @return:-
 // 400 : if there's error(s), and the errors messages are returned
 //       each with prefix describing where the error happened "email: already exists"
 // 200 : if the user is registered successfully, and the user data is returned with the password encrypted
