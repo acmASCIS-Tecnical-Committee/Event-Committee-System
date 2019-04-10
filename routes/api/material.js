@@ -4,12 +4,9 @@ const express = require("express");
 const router = express.Router();
 // to authenticate the private routes
 const passport = require("passport");
-// to cast string to database id
-const mongoose = require("mongoose");
 
 // load material schema
 const Material = require("../../models/material");
-const Store = require("../../models/store");
 
 // validation functions
 const validateMaterial = require("../../validation/material");

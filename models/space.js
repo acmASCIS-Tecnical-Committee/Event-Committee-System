@@ -64,25 +64,22 @@ const SpaceSchema = new Schema({
     type: String,
     required: false
   },
-  connections: {
-    type: [
-      {
-        mobile: {
-          type: String,
-          required: true
-        },
-        name: {
-          type: String,
-          required: true
-        },
-        notes: {
-          type: String,
-          required: false
-        }
+  connections: [
+    {
+      mobile: {
+        type: String,
+        required: true
+      },
+      name: {
+        type: String,
+        required: true
+      },
+      notes: {
+        type: String,
+        required: false
       }
-    ],
-    required: false
-  },
+    }
+  ],
   opening: {
     type: [
       {
@@ -104,4 +101,4 @@ const SpaceSchema = new Schema({
   }
 });
 
-module.exports = Space = mongoose.model("space", SpaceSchema);
+module.exports = space = mongoose.model("spaces", SpaceSchema);

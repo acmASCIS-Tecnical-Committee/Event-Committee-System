@@ -24,7 +24,7 @@ router.get("/test", (req, res) => {
 router.post("/register", (req, res) => {
   const { errors, isValid } = validateOwnerInput(req.body);
   if (!isValid) {
-    res.status(400).json(errors);
+    return res.status(400).json(errors);
   } else {
     Owner.findOne({ email: req.body.email }).then(owner => {
       if (owner) {

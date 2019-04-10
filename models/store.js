@@ -49,4 +49,4 @@ const storeSchema = new Schema({
   }
 });
 
-module.exports = User = mongoose.model("stores", storeSchema);
+module.exports = store = mongoose.model("stores", storeSchema);
