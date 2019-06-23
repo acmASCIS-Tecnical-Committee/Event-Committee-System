@@ -53,15 +53,13 @@ class Login extends Component {
 
     return (
       <div className="login">
-        <div className="container">
-          <div>
-            <div>
-              <h1>Log In</h1>
-              <p>
+            <div className="container">
+              <h1 className="text-center">Log In</h1>
+              <p className="text-center">
                 Sign in to your Events account
               </p>
-              <form onSubmit={this.onSubmit}>
-                <div>
+              <form onSubmit={this.onSubmit} className="text-center">
+                <div className="form-group ">
                   <input
                     type="email"
                     placeholder="Email Address"
@@ -69,11 +67,9 @@ class Login extends Component {
                     value={this.state.email}
                     onChange={this.onChange}
                   />
-                  {errors.email && (
-                    <div>{errors.email}</div>
-                  )}
+                  {errors.email && (<div>{errors.email}</div>)}
                 </div>
-                <div>
+                <div className="form-group">
                   <input
                     type="password"
                     placeholder="Password"
@@ -85,11 +81,9 @@ class Login extends Component {
                     <div>{errors.password}</div>
                   )}
                 </div>
-                <input type="submit"/>
+                <button type="submit" className="btn btn-secondary">Submit</button>
               </form>
             </div>
-          </div>
-        </div>
       </div>
     );
   }

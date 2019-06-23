@@ -58,15 +58,13 @@ class Register extends Component {
 
     return (
       <div className="register">
-        <div >
-          <div>
-            <div >
-              <h1>Sign Up</h1>
-              <p >
+          <div className="container">
+              <h1 className="text-center">Sign Up</h1>
+              <p className="text-center">
                 Create your Events account
               </p>
-              <form noValidate onSubmit={this.onSubmit}>
-                <div >
+              <form onSubmit={this.onSubmit} className="text-center">
+                <div className="form-group" >
                   <input
                     type="text"
                     placeholder="Name"
@@ -78,7 +76,7 @@ class Register extends Component {
                     <div>{errors.name}</div>
                   )}
                 </div>
-                <div>
+                <div className="form-group">
                   <input
                     type="email"
                     placeholder="Email Address"
@@ -90,7 +88,7 @@ class Register extends Component {
                     <div>{errors.email}</div>
                   )}
                 </div>
-                <div >
+                <div className="form-group">
                   <input
                     type="mobileNumber"
                     placeholder="mobileNumber"
@@ -102,8 +100,7 @@ class Register extends Component {
                     <div >{errors.mobileNumber}</div>
                   )}
                 </div>
-
-                <div >
+                <div className="form-group">
                   <input
                     type="password"
                     placeholder="Password"
@@ -115,7 +112,7 @@ class Register extends Component {
                     <div >{errors.password}</div>
                   )}
                 </div>
-                <div >
+                <div className="form-group" >
                   <input
                     type="password"
                     placeholder="Confirm Password"
@@ -127,11 +124,9 @@ class Register extends Component {
                     <div>{errors.password2}</div>
                   )}
                 </div>
-                <input type="submit" />
+                <button type="submit" className="btn btn-secondary">Submit</button>
               </form>
             </div>
-          </div>
-        </div>
       </div>
     );
   }
