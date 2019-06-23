@@ -24,6 +24,9 @@ class Home extends Component {
             HomeContent=<div>
             <p>{user.name}</p>
             <p>{user.type}</p>
+            <Link to="/createCoWorkingSpace">
+                Add new Co-Working-Space
+            </Link>
             </div>;
         }
         return HomeContent;

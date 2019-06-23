@@ -14,7 +14,7 @@ import Register from './components/auth/register';
 import Login from './components/auth/login';
 
 import Home from './components/home/home';
-
+import CoWorkingSpaceRegister from './components/coWorkingSpace/createCoWorkingSpace';
 import './App.css';
 
 // Check for token
@@ -50,6 +50,7 @@ class App extends Component {
               <Route exact path="/register" component={Register} />
               <Route exact path="/login" component={Login} />
               <Route exact path="/home" component={Home} />
+              <Route exact path="/createCoWorkingSpace" component={CoWorkingSpaceRegister} />
             </div>
             <Footer />
           </div>
