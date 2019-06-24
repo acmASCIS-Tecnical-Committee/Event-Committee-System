@@ -29,35 +29,6 @@ router.get("/test", (req, res) => {
   res.json({ message: "User route works" });
 });
 
-// @route GET api/user/:user_id
-// @desc get the user data given the user id
-// @access Public
-// @params user_id: "the required user ID"
-// @return:-
-// 404 : if there is no such user and {"messsage": the error}
-// 200 : if the user is found successfully and all it's data
-// reutrn JSON of the requested user => {name:,email:,mobile:,type:}
-router.get("/:user_id", (req, res) => {
-  User.findById({ _id: req.params.user_id })
-    .then(user => {
-      if (user) {
-        userRequested = new User({
-          name: user.name,
-          email: user.email,
-          mobile: user.mobile,
-          type: user.type
-        });
-        return res.status(200).json(userRequested);
-      } else
-        return res
-          .status(404)
-          .json({ message: "There's no user with the requested ID" });
-    })
-    .catch(err =>
-      res.status(404).json({ message: "There's no user with the requested ID" })
-    );
-});
-
 // @route DELETE api/user/:user_id
 // @desc delete the user with the given id
 // @access Private for the same user only
@@ -65,6 +36,7 @@ router.get("/:user_id", (req, res) => {
 // @return status :-
 // 400/404 : if there is an error with JSON message: "error message"
 // 200 : if the user has been removed with JSON message: "success"
+
 router.delete(
   "/:user_id",
   passport.authenticate("jwt", { session: false }),
@@ -107,7 +79,8 @@ router.post("/register", (req, res) => {
           name: req.body.name,
           email: req.body.email,
           password: req.body.password,
-          mobile: req.body.mobile
+          mobile: req.body.mobile,
+          type: req.body.type
         });
         // To save the password in database encrypted
         bcrypt.genSalt(10, (err, salt) => {
@@ -179,5 +152,62 @@ router.get(
     res.json(req.user);
   }
 );
+
+// @route POST api/user/profile/all
+// @desc load all users' profile
+// @access Private
+// @return validate the jwt token
+
+router.get(
+  "/all",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    const errors = {};
+
+    User.find()
+      .then(profiles => {
+        if (req.user.type === "admin") {
+          if (!profiles) {
+            errors.noprofile = "There is no profile for this user";
+            return res.status(404).json(errors);
+          }
+          res.json(profiles);
+        } else {
+          res.json({ msg: "you do not have permation" });
+        }
+      })
+      .catch(err => res.status(404).json(err));
+  }
+);
+// @route GET api/user/:user_id
+// @desc get the user data given the user id
+// @access Public
+// @params user_id: "the required user ID"
+// @return:-
+// 404 : if there is no such user and {"messsage": the error}
+// 200 : if the user is found successfully and all it's data
+// reutrn JSON of the requested user => {name:,email:,mobile:,type:}
+
+router.get("/:user_id", (req, res) => {
+  User.findById({ _id: req.params.user_id })
+    .then(user => {
+      if (user) {
+        //console.log("hhhhh");
+        userRequested = new User({
+          name: user.name,
+          email: user.email,
+          mobile: user.mobile,
+          type: user.type
+        });
+        return res.status(200).json(userRequested);
+      } else
+        return res
+          .status(404)
+          .json({ message: "There's no user with the requested ID" });
+    })
+    .catch(err =>
+      res.status(404).json({ message: "There's no user with the requested ID" })
+    );
+});
 
 module.exports = router;
