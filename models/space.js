@@ -26,11 +26,9 @@ const SpaceSchema = new Schema({
       required: true
     }
   },
-  mobile: {
-    type: [String],
-    // todo make sure what true here will do
-    required: false
-  },
+  mobile:[ {
+    type: String
+  }],
   rooms: {
     type: [
       {
@@ -67,10 +65,9 @@ const SpaceSchema = new Schema({
   connections: {
     type: [
       {
-        mobile: {
-          type: String,
-          required: true
-        },
+        mobile:[ {
+          type: String
+        }],
         name: {
           type: String,
           required: true

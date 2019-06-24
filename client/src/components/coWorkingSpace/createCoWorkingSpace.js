@@ -9,16 +9,16 @@ class CoWorkingSpaceRegister extends Component {
   constructor(props) {
     super(props);
 
-   /* this.state = {
+   this.state = {
       name: 'aaaaaaa',
       email: 'aaaa@gmail.com',
       address: {
-        link:'dfefd',
-        zone:'fdfdfdf'
+        link:'https://www.google.com/maps/place/30%C2%B01https://www.google.com/maps/@30.0748924,31.2916598,21z3',
+        zone:'Elkanka'
       },
       mobile:[],
       mobileNumber: '01224578965',
-      social_media:'dfdfd',
+      social_media:'https://www.facebook.com/',
       opening:[],
       opening_obj:{
         open:'5:00',
@@ -33,15 +33,15 @@ class CoWorkingSpaceRegister extends Component {
       notes:'sddddddddd',
       rooms:[],
       rooms_obj:{
-        capacity:0,
-          price:0,
+        capacity:'5',
+          price:'1',
           special_cases:'ssss',
           notes:'ssss',
           name:'ssssss'
       },
       errors: {}
-    };*/
-  
+    };
+  /*
     this.state = {
       name: '',
       email: '',
@@ -69,15 +69,15 @@ class CoWorkingSpaceRegister extends Component {
       notes:'',
       rooms:[],
       rooms_obj:{
-        capacity:'',
-          price:'',
+        capacity:0,
+          price:0,
           special_cases:'',
           notes:'',
           name:''
       },
       rooms_obj_capacity:'',rooms_obj_price:'',rooms_obj_cases:'',rooms_obj_notes:'',rooms_obj_name:'',
       errors: {}
-    };
+    };*/
     
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
