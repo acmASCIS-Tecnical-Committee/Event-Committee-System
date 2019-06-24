@@ -4,6 +4,8 @@ const express = require("express");
 const router = express.Router();
 //To acsses space database schema
 const Space = require("../../models/space");
+// to authenticate the private routes
+const passport = require("passport");
 
 //To use Validation unction
 const validateSpaceInput = require("../../validation/space");
@@ -46,5 +48,30 @@ router.post("/register", (req, res) => {
     });
   }
 });
+
+
+// @route POST api/space/all
+// @desc load all spaces
+// @access Private
+// @return validate the jwt token
+
+router.get(
+  "/all",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    const errors = {};
+    Space.find()
+      .then(spaces => {
+          if (!spaces) {
+            errors.nospaces = "There is no spaces ";
+            return res.status(404).json(errors);
+          }
+          res.json(spaces);
+       
+      })
+      .catch(err => res.status(404).json(err));
+  }
+);
+
 
 module.exports = router;

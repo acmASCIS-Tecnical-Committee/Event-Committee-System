@@ -50,4 +50,29 @@ router.post(
   }
 );
 
+
+// @route POST api/store/all
+// @desc load all stores
+// @access Private
+// @return validate the jwt token
+
+router.get(
+  "/all",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    const errors = {};
+    Store.find()
+      .then(stores => {
+          if (!stores) {
+            errors.nostores = "There is no stores ";
+            return res.status(404).json(errors);
+          }
+          res.json(stores);
+       
+      })
+      .catch(err => res.status(404).json(err));
+  }
+);
+
+
 module.exports = router;

@@ -49,4 +49,32 @@ router.post(
     });
   }
 );
+
+
+// @route POST api/material/all
+// @desc load all materials
+// @access Private
+// @return validate the jwt token
+
+router.get(
+  "/all",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    const errors = {};
+    Material.find()
+      .then(materials => {
+          if (!materials) {
+            errors.nomaterials = "There is no materials ";
+            return res.status(404).json(errors);
+          }
+          res.json(materials);
+       
+      })
+      .catch(err => res.status(404).json(err));
+  }
+);
+
+
+
+
 module.exports = router;

@@ -4,16 +4,19 @@ const express = require("express");
 const router = express.Router();
 //To acsses Owner database schema
 const Owner = require("../../models/owner");
+  // to authenticate the private routes
+  const passport = require("passport");
 
-//To use Validation unction
-const validateOwnerInput = require("../../validation/owner");
 
-//To test if it work
-router.get("/test", (req, res) => {
-  res.json("Owner route works");
-});
+  //To use Validation unction
+  const validateOwnerInput = require("../../validation/owner");
 
-// @route POST api/owner/register
+  //To test if it work
+  router.get("/test", (req, res) => {
+    res.json("Owner route works");
+  });
+
+  // @route POST api/owner/register
 // @desc Register new owner
 // @access Public
 // @return status :-
@@ -45,5 +48,30 @@ router.post("/register", (req, res) => {
     });
   }
 });
+
+// @route POST api/owner/all
+// @desc load all owners
+// @access Private
+// @return validate the jwt token
+
+router.get(
+  "/all",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    const errors = {};
+    Owner.find()
+      .then(owners => {
+          if (!owners) {
+            errors.nostores = "There is no owners ";
+            return res.status(404).json(errors);
+          }
+          res.json(owners);
+       
+      })
+      .catch(err => res.status(404).json(err));
+  }
+);
+
+
 
 module.exports = router;

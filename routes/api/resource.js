@@ -4,6 +4,9 @@ const express = require("express");
 const router = express.Router();
 //To acsses resource database schema
 const Resource = require("../../models/resource");
+// to authenticate the private routes
+const passport = require("passport");
+
 
 //To use Validation unction
 const validateResourceInput = require("../../validation/resource");
@@ -46,5 +49,30 @@ router.post("/register", (req, res) => {
     });
   }
 });
+
+
+// @route POST api/resource/all
+// @desc load all resources
+// @access Private
+// @return validate the jwt token
+
+router.get(
+  "/all",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    const errors = {};
+    Resource.find()
+      .then(resources => {
+          if (!resources) {
+            errors.noresources = "There is no resources ";
+            return res.status(404).json(errors);
+          }
+          res.json(resources);
+       
+      })
+      .catch(err => res.status(404).json(err));
+  }
+);
+
 
 module.exports = router;
