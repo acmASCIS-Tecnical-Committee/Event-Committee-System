@@ -75,4 +75,37 @@ router.get(
 );
 
 
+
+// @route GET api/store/:store_id
+// @desc get the store data given the store id
+// @access Public
+// @params store_id: "the required store ID"
+// @return:-
+// 404 : if there is no such store and {"messsage": the error}
+// 200 : if the store is found successfully and all it's data
+// reutrn JSON of the requested store => {name:,notes:,address:,mobile:,opening:}
+router.get("/:store_id", (req, res) => {
+  Store.findById({ _id: req.params.store_id })
+    .then(store => {
+      if (store) {
+        storeRequested = new Store({
+          name: store.name,
+          address: store.address,
+          opening: store.opening,
+          mobile:store.mobile,
+          notes: store.notes
+        });
+        return res.status(200).json(storeRequested);
+      } else
+        return res
+          .status(404)
+          .json({ message: "There's no store with the requested ID" });
+    })
+    .catch(err =>
+      res.status(404).json({ message: "There's no store with the requested ID" })
+    );
+});
+
+
+
 module.exports = router;

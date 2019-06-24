@@ -72,6 +72,41 @@ router.get(
   }
 );
 
+// // @route GET api/resource/:resource_id
+// // @desc get the resource data given the resource id
+// // @access Public
+// // @params resource_id: "the required resource ID"
+// // @return:-
+// // 404 : if there is no such resource and {"messsage": the error}
+// // 200 : if the resource is found successfully and all it's data
+// // reutrn JSON of the requested resource => {name:,email:,notes:,address:,mobile:,opening:}
+// router.get("/:resource_id", (req, res) => {
+//   Resource.findById({ _id: req.params.resource_id })
+//     .then(resource => {
+//       if (resource) {
+//         resourceRequested = new Resource({
+//           name: resource.name,
+//           email:resource.email,
+//           address: resource.address, 
+//           opening: resource.opening,
+//           mobile:resource.mobile,
+//           rooms:resource.rooms,
+//           notes: resource.notes,
+//           connections:resource.connections,
+//           opening:resource.opening,
+//           social_media:resource.social_media
+//         });
+//         return res.status(200).json(resourceRequested);
+//       } else
+//         return res
+//           .status(404)
+//           .json({ message: "There's no resource with the requested ID" });
+//     })
+//     .catch(err =>
+//       res.status(404).json({ message: "There's no resource with the requested ID" })
+//     );
+// });
+
 
 
 module.exports = router;
