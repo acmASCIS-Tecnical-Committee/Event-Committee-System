@@ -76,5 +76,36 @@ router.get(
 
 
 
+// // @route GET api/material/:material_id
+// // @desc get the material data given the material id
+// // @access Public
+// // @params material_id: "the required material ID"
+// // @return:-
+// // 404 : if there is no such material and {"messsage": the error}
+// // 200 : if the material is found successfully and all it's data
+// // reutrn JSON of the requested material => {name:,notes:,providers:}
+// router.get("/:material_id", (req, res) => {
+//   Material.findById({ _id: req.params.material_id })
+//     .then(material => {
+//       if (material) {
+//         materialRequested = new Material({
+//           name: material.name,
+//           notes: material.notes,
+//           providers: material.providers
+//           // type: material.type
+//         });
+//         return res.status(200).json(materialRequested);
+//       } else
+//         return res
+//           .status(404)
+//           .json({ message: "There's no material with the requested ID" });
+//     })
+//     .catch(err =>
+//       res.status(404).json({ message: "There's no material with the requested ID" })
+//     );
+// });
+
+
+
 
 module.exports = router;
