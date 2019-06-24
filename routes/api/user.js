@@ -80,11 +80,7 @@ router.post("/register", (req, res) => {
           email: req.body.email,
           password: req.body.password,
           mobile: req.body.mobile,
-<<<<<<< HEAD
           type:req.body.type
-=======
-          type: req.body.type
->>>>>>> e09899524cef61c28b3410075908b5fba7ae19a8
         });
         // To save the password in database encrypted
         bcrypt.genSalt(10, (err, salt) => {

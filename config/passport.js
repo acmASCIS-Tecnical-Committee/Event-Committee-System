@@ -17,13 +17,6 @@ module.exports = passport => {
       User.findById(jwtPayload.id)
         .then(user => {
           // in case of successful authentication, the done call back should give a good session, otherwise unotherized
-<<<<<<< HEAD
-=======
-
-          // return done(null, { id: user.id });
-
-          //Q
->>>>>>> e09899524cef61c28b3410075908b5fba7ae19a8
           return done(null, user);
         })
         .catch(err => console.log(err));
