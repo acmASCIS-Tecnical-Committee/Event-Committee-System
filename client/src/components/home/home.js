@@ -30,6 +30,12 @@ class Home extends Component {
             <Link to="/createStore">
                 Add new Store
             </Link>
+            <Link to="/createResource">
+                Add new Resource
+            </Link>
+            <Link to="/createOwner">
+                Add new Owner
+            </Link>
             </div>;
         }
         return HomeContent;

@@ -1,16 +1,16 @@
 import axios from 'axios';
-import {GET_ERRORS,CLEAR_CURRENT_STORES ,STORES_NOT_FOUND , STORES_LOADING,GET_STORES} from './types';
+import {GET_ERRORS, RESOURCES_LOADING, CLEAR_CURRENT_RESOURCES} from './types';
 
 
 export const setStoresLoding = () =>{
     return {
-        type:STORES_LOADING
+        type:RESOURCES_LOADING
     };
 };
 
-export const createStore = (StoreData, history) => dispatch => {
+export const createResource = (ResourceData, history) => dispatch => {
   axios
-  .post('api/store/register', StoreData)
+  .post('api/resource/register', ResourceData)
   .then(res => history.push('/home'))
   .catch(err =>
     dispatch({
@@ -42,8 +42,8 @@ export const getcoWorkingSpace = () => dispatch =>{
 };*/
 
 
-export const clearCurrentStores = () => {
+export const clearCurrentResources = () => {
     return {
-      type: CLEAR_CURRENT_STORES
+      type: CLEAR_CURRENT_RESOURCES
     };
   };

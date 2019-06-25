@@ -1,16 +1,16 @@
 import axios from 'axios';
-import {GET_ERRORS,CLEAR_CURRENT_STORES ,STORES_NOT_FOUND , STORES_LOADING,GET_STORES} from './types';
+import {GET_ERRORS, CLEAR_CURRENT_OWNERS, OWNERS_LOADING} from './types';
 
 
-export const setStoresLoding = () =>{
+export const setOwnersLoding = () =>{
     return {
-        type:STORES_LOADING
+        type:OWNERS_LOADING
     };
 };
 
-export const createStore = (StoreData, history) => dispatch => {
+export const createOwner = (OwnerData, history) => dispatch => {
   axios
-  .post('api/store/register', StoreData)
+  .post('api/owner/register', OwnerData)
   .then(res => history.push('/home'))
   .catch(err =>
     dispatch({
@@ -42,8 +42,8 @@ export const getcoWorkingSpace = () => dispatch =>{
 };*/
 
 
-export const clearCurrentStores = () => {
+export const clearowners = () => {
     return {
-      type: CLEAR_CURRENT_STORES
+      type: CLEAR_CURRENT_OWNERS
     };
   };
