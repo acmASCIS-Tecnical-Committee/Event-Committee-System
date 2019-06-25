@@ -4,19 +4,18 @@ const express = require("express");
 const router = express.Router();
 //To acsses Owner database schema
 const Owner = require("../../models/owner");
-  // to authenticate the private routes
-  const passport = require("passport");
+// to authenticate the private routes
+const passport = require("passport");
 
+//To use Validation unction
+const validateOwnerInput = require("../../validation/owner");
 
-  //To use Validation unction
-  const validateOwnerInput = require("../../validation/owner");
+//To test if it work
+router.get("/test", (req, res) => {
+  res.json("Owner route works");
+});
 
-  //To test if it work
-  router.get("/test", (req, res) => {
-    res.json("Owner route works");
-  });
-
-  // @route POST api/owner/register
+// @route POST api/owner/register
 // @desc Register new owner
 // @access Public
 // @return status :-
@@ -61,52 +60,45 @@ router.get(
     const errors = {};
     Owner.find()
       .then(owners => {
-          if (!owners) {
-            errors.nostores = "There is no owners ";
-            return res.status(404).json(errors);
-          }
-          res.json(owners);
-       
+        if (!owners) {
+          errors.nostores = "There is no owners ";
+          return res.status(404).json(errors);
+        }
+        res.json(owners);
       })
       .catch(err => res.status(404).json(err));
   }
 );
 
-// // @route GET api/resource/:resource_id
-// // @desc get the resource data given the resource id
-// // @access Public
-// // @params resource_id: "the required resource ID"
-// // @return:-
-// // 404 : if there is no such resource and {"messsage": the error}
-// // 200 : if the resource is found successfully and all it's data
-// // reutrn JSON of the requested resource => {name:,email:,notes:,address:,mobile:,opening:}
-// router.get("/:resource_id", (req, res) => {
-//   Resource.findById({ _id: req.params.resource_id })
-//     .then(resource => {
-//       if (resource) {
-//         resourceRequested = new Resource({
-//           name: resource.name,
-//           email:resource.email,
-//           address: resource.address, 
-//           opening: resource.opening,
-//           mobile:resource.mobile,
-//           rooms:resource.rooms,
-//           notes: resource.notes,
-//           connections:resource.connections,
-//           opening:resource.opening,
-//           social_media:resource.social_media
-//         });
-//         return res.status(200).json(resourceRequested);
-//       } else
-//         return res
-//           .status(404)
-//           .json({ message: "There's no resource with the requested ID" });
-//     })
-//     .catch(err =>
-//       res.status(404).json({ message: "There's no resource with the requested ID" })
-//     );
-// });
-
-
+// @route GET api/owner/:owner_id
+// @desc get the owner data given the owner id
+// @access Public
+// @params owner_id: "the required owner ID"
+// @return:-
+// 404 : if there is no such owner and {"messsage": the error}
+// 200 : if the owner is found successfully and all it's data
+// reutrn JSON of the requested owner => {name:,email:,mobile:,social_media:}
+router.get("/:owner_id", (req, res) => {
+  Owner.findById({ _id: req.params.owner_id })
+    .then(owner => {
+      if (owner) {
+        ownerRequested = new Owner({
+          name: owner.name,
+          email: owner.email,
+          mobile: owner.mobile,
+          social_media: owner.social_media
+        });
+        return res.status(200).json(ownerRequested);
+      } else
+        return res
+          .status(404)
+          .json({ message: "There's no owner with the requested ID" });
+    })
+    .catch(err =>
+      res
+        .status(404)
+        .json({ message: "There's no owner with the requested ID" })
+    );
+});
 
 module.exports = router;
