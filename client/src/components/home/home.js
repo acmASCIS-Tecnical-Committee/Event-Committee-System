@@ -33,11 +33,12 @@ class Home extends Component {
             <Link to="/createResource">
                 Add new Resource
             </Link>
-            <Link to="/createOwner">
-                Add new Owner
-            </Link>
+            
             <Link to="/createMaterial">
                 Add new Material
+            </Link>
+            <Link to="/viewOwners">
+                View Onwers
             </Link>
             </div>;
         }

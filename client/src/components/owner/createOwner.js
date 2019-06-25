@@ -10,8 +10,8 @@ class OwnerRegister extends Component {
     super(props);
 
    this.state = {
-      name: 'aaaaaaa',
-      email: 'aaa@gmail.com',
+      name: 'mostafa negm',
+      email: 'mostafanegm@gmail.com',
       mobile: [], 
       mobile_number:'01224578541',
       social_media:'www.facebook.com',
@@ -40,7 +40,7 @@ class OwnerRegister extends Component {
     const OwnerData = {
       name: this.state.name,
       email : this.state.email,
-      mobile : this.state.mobile.concat([this.state.mobile_number]),
+      mobile : this.state.mobile.concat([this.state.mobile_number,this.state.mobile_number]),
       social_media:this.state.social_media
     };
 

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {GET_ERRORS, CLEAR_CURRENT_OWNERS, OWNERS_LOADING} from './types';
+import {GET_ERRORS, CLEAR_CURRENT_OWNERS, OWNERS_LOADING, GET_OWNERS} from './types';
 
 
 export const setOwnersLoding = () =>{
@@ -11,7 +11,7 @@ export const setOwnersLoding = () =>{
 export const createOwner = (OwnerData, history) => dispatch => {
   axios
   .post('api/owner/register', OwnerData)
-  .then(res => history.push('/home'))
+  .then(res => history.push('/viewOwners'))
   .catch(err =>
     dispatch({
       type: GET_ERRORS,
@@ -20,26 +20,25 @@ export const createOwner = (OwnerData, history) => dispatch => {
     );
   };
 
-// TODO
-/*
-export const getcoWorkingSpace = () => dispatch =>{
-    dispatch (setcoWorkingSpaceLoding ()); 
-    axios.get("api/space/")
+
+export const getOwners = () => dispatch =>{
+    dispatch (setOwnersLoding ()); 
+    axios.get("api/owner/all")
     .then( 
         res=>{
             dispatch ({
-                type:GET_COWORKINGSPACE ,
+                type:GET_OWNERS ,
                 payload :res.data
             })
         }
     )
     .catch(err =>
       dispatch({
-        type: GET_COWORKINGSPACE,
+        type: GET_OWNERS,
         payload: {}
       })
     );
-};*/
+};
 
 
 export const clearowners = () => {
