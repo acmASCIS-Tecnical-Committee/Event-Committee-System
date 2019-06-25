@@ -36,6 +36,9 @@ class Home extends Component {
             <Link to="/createOwner">
                 Add new Owner
             </Link>
+            <Link to="/createMaterial">
+                Add new Material
+            </Link>
             </div>;
         }
         return HomeContent;

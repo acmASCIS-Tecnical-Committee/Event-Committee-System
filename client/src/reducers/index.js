@@ -5,7 +5,8 @@ import profileReducer from './proflieReducer';
 import coWorkingSpaceReducer from './coWorkingSpaceReducer';
 import storesReducer from './storesReducer';
 import resourceReducer from './resourceReducer';
-import ownerReducer from './ownerRwducer';
+import ownerReducer from './ownerReducer';
+import materialsReducer from './materialsReducer';
 export default combineReducers({
   auth: authReducer,
   errors: errorReducer,
@@ -13,5 +14,6 @@ export default combineReducers({
   coWorkingSpace:coWorkingSpaceReducer,
   stores:storesReducer,
   resources : resourceReducer,
-  owner: ownerReducer
+  owner: ownerReducer,
+  materials : materialsReducer
 });

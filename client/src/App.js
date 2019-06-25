@@ -19,6 +19,7 @@ import './App.css';
 import StoreRegister from './components/stores/createStore';
 import OwnerRegister from './components/owner/createOwner';
 import ResourceRegister from './components/resources/createRecource';
+import MaterialRegister from './components/materials/createMaterial';
 // Check for token
 if (localStorage.jwtToken) {
   // Set auth token header auth
@@ -53,6 +54,7 @@ class App extends Component {
               <Route exact path="/login" component={Login} />
               <Route exact path="/home" component={Home} />
               <Route exact path="/createStore" component={StoreRegister} />
+              <Route exact path="/createMaterial" component={MaterialRegister} />
               <Route exact path="/createResource" component={ResourceRegister} />
               <Route exact path="/createOwner" component={OwnerRegister} />
               <Route exact path="/createCoWorkingSpace" component={CoWorkingSpaceRegister} />
