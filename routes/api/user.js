@@ -80,7 +80,7 @@ router.post("/register", (req, res) => {
           email: req.body.email,
           password: req.body.password,
           mobile: req.body.mobile,
-          type:req.body.type
+          type: req.body.type
         });
         // To save the password in database encrypted
         bcrypt.genSalt(10, (err, salt) => {
@@ -153,7 +153,7 @@ router.get(
   }
 );
 
-// @route POST api/user/profile/all
+// @route POST api/user/all
 // @desc load all users' profile
 // @access Private
 // @return validate the jwt token
@@ -192,7 +192,6 @@ router.get("/:user_id", (req, res) => {
   User.findById({ _id: req.params.user_id })
     .then(user => {
       if (user) {
-        //console.log("hhhhh");
         userRequested = new User({
           name: user.name,
           email: user.email,
@@ -209,5 +208,59 @@ router.get("/:user_id", (req, res) => {
       res.status(404).json({ message: "There's no user with the requested ID" })
     );
 });
+
+// @route Post api/user/update
+// @desc update the current user
+// @access Private for the same user only
+// @return status :-
+// 400/404 : if there is an error with JSON message: "error message"
+// 200 : if the user has been removed with JSON message: "success"
+
+router.post(
+  "/update",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    //console.log("*****");
+    //error in validation
+    const { errors, isValid } = validateRegisterInput(req.body);
+    //console.log("33333333333/");
+
+    // Check Validation
+    if (!isValid) {
+      // console.log("///////");
+      // Return any errors with 400 status
+      return res.status(400).json(errors);
+    }
+    //console.log("++++++");
+
+    const userFields = {};
+    if (req.body.name) userFields.name = req.body.name;
+    if (req.body.email) userFields.email = req.body.email;
+    if (req.body.password) userFields.password = req.body.password;
+    if (req.body.mobile) userFields.mobile = req.body.mobile;
+    if (req.body.type) userFields.type = req.body.type;
+
+    User.findOne({ _id: req.user.id })
+      .then(user => {
+        if (user) {
+          // if (req.user.id === req.params.user_id) {
+          User.findOneAndUpdate(
+            { _id: req.user.id },
+            { $set: userFields },
+            { new: true }
+          )
+            .then(profile => res.json(profile))
+            .catch(err => {
+              console.log(err);
+              res.json({ Eror: "faild to update" });
+            });
+
+          // } else
+          //   return res.status(400).json({ messgae: "Unauthorized Deletion" });
+        } else return res.status(404).json({ message: "User not found" });
+      })
+      .catch(err => console.log(err));
+  }
+);
 
 module.exports = router;
