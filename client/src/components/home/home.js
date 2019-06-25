@@ -27,6 +27,9 @@ class Home extends Component {
             <Link to="/createCoWorkingSpace">
                 Add new Co-Working-Space
             </Link>
+            <Link to="/createStore">
+                Add new Store
+            </Link>
             </div>;
         }
         return HomeContent;
