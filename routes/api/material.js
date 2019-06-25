@@ -122,4 +122,49 @@ router.get("/:material_id", (req, res) => {
     );
 });
 
+// @route Post api/material/update/:material_id
+// @desc update the current material
+// @access Private for any user
+// @return status :-
+// 400/404 : if there is an error with JSON message: "error message"
+// 200 : if the material has been removed with JSON message: "success"
+
+router.post(
+  "/update/:material_id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    //error in validation
+    const { errors, isValid } = validateMaterial(req.body);
+    if (!isValid) {
+      return res.status(400).json(errors);
+    }
+    const materialFields = {};
+    if (req.body.name) materialFields.name = req.body.name;
+    if (req.body.notes) materialFields.notes = req.body.notes;
+    if (req.body.providers) materialFields.providers = req.body.providers;
+
+    Material.findOne({ _id:req.params.material_id })
+      .then(material => {
+        if (material) {
+          // if (req.material.id === req.params.material_id) {
+          Material.findOneAndUpdate(
+            { _id: req.params.material_id },
+            { $set: materialFields },
+            { new: true }
+          )
+            .then(material => res.json(material))
+            .catch(err => {
+              console.log(err);
+              res.json({ Eror: "faild to update" });
+            });
+
+          // } else
+          //   return res.status(400).json({ messgae: "Unauthorized Deletion" });
+        } else return res.status(404).json({ message: "material not found" });
+      })
+      .catch(err => console.log(err));
+  }
+);
+
+
 module.exports = router;

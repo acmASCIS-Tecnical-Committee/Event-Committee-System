@@ -121,4 +121,57 @@ router.get("/:owner_id", (req, res) => {
     );
 });
 
+
+
+
+
+// @route Post api/owner/update/:owner_id
+// @desc update the current owner
+// @access Private for any user
+// @return status :-
+// 400/404 : if there is an error with JSON message: "error message"
+// 200 : if the owner has been removed with JSON message: "success"
+
+router.post(
+  "/update/:owner_id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    //error in validation
+    const { errors, isValid } = validateOwnerInput(req.body);
+    if (!isValid) {
+      return res.status(400).json(errors);
+    }
+    const ownerFields = {};
+    if (req.body.name) ownerFields.name = req.body.name;
+    if (req.body.email) ownerFields.email = req.body.email;
+    if (req.body.mobile) ownerFields.mobile = req.body.mobile;
+    if (req.body.social_media) ownerFields.social_media = req.body.social_media;
+
+    Owner.findOne({ _id:req.params.owner_id })
+      .then(owner => {
+        if (owner) {
+          // if (req.owner.id === req.params.owner_id) {
+          Owner.findOneAndUpdate(
+            { _id: req.params.owner_id },
+            { $set: ownerFields },
+            { new: true }
+          )
+            .then(owner => res.json(owner))
+            .catch(err => {
+              console.log(err);
+              res.json({ Eror: "faild to update" });
+            });
+
+          // } else
+          //   return res.status(400).json({ messgae: "Unauthorized Deletion" });
+        } else return res.status(404).json({ message: "Owner not found" });
+      })
+      .catch(err => console.log(err));
+  }
+);
+
+
+
+
+
 module.exports = router;

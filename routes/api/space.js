@@ -139,4 +139,61 @@ router.get("/:space_id", (req, res) => {
     );
 });
 
+
+
+
+
+// @route Post api/space/update/:space_id
+// @desc update the current space
+// @access Private for any user
+// @return status :-
+// 400/404 : if there is an error with JSON message: "error message"
+// 200 : if the space has been removed with JSON message: "success"
+
+router.post(
+  "/update/:space_id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    //error in validation
+    const { errors, isValid } = validateSpaceInput(req.body);
+    if (!isValid) {
+      return res.status(400).json(errors);
+    }
+    const spaceFields = {};
+    if (req.body.name) spaceFields.name = req.body.name;
+    if (req.body.email) spaceFields.email = req.body.email;
+    if (req.body.address) spaceFields.address = req.body.address;
+    if (req.body.mobile) spaceFields.mobile = req.body.mobile;
+    if (req.body.rooms) spaceFields.rooms = req.body.rooms;
+    if (req.body.notes) spaceFields.notes = req.body.notes;
+    if (req.body.connections) spaceFields.connections = req.body.connections;
+    if (req.body.opening) spaceFields.opening = req.body.opening;
+    if (req.body.social_media) spaceFields.social_media = req.body.social_media;
+
+
+
+    Space.findOne({ _id:req.params.space_id })
+      .then(space => {
+        if (space) {
+          // if (req.space.id === req.params.space_id) {
+          Space.findOneAndUpdate(
+            { _id: req.params.space_id },
+            { $set: spaceFields },
+            { new: true }
+          )
+            .then(space => res.json(space))
+            .catch(err => {
+              console.log(err);
+              res.json({ Eror: "faild to update" });
+            });
+
+          // } else
+          //   return res.status(400).json({ messgae: "Unauthorized Deletion" });
+        } else return res.status(404).json({ message: "Space not found" });
+      })
+      .catch(err => console.log(err));
+  }
+);
+
+
 module.exports = router;
