@@ -49,7 +49,6 @@ router.post("/register", (req, res) => {
   }
 });
 
-
 // @route POST api/space/all
 // @desc load all spaces
 // @access Private
@@ -62,17 +61,32 @@ router.get(
     const errors = {};
     Space.find()
       .then(spaces => {
-          if (!spaces) {
-            errors.nospaces = "There is no spaces ";
-            return res.status(404).json(errors);
-          }
-          res.json(spaces);
-       
+        if (!spaces) {
+          errors.nospaces = "There is no spaces ";
+          return res.status(404).json(errors);
+        }
+        res.json(spaces);
       })
       .catch(err => res.status(404).json(err));
   }
 );
 
+// @route   DELETE api/space/delete
+// @desc    Delete space
+// @access  Private
+//"/delete",
+router.delete(
+  "/:space_id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    //  space.findOneAndRemove({ _id: req.body.space_id })
+    Space.findOneAndRemove({ _id: req.params.space_id })
+      .then(() => {
+        res.json({ success: true });
+      })
+      .catch(err => res.status(404).json({ message: "Have error" }));
+  }
+);
 
 // @route GET api/space/:space_id
 // @desc get the space data given the space id
@@ -88,14 +102,14 @@ router.get("/:space_id", (req, res) => {
       if (space) {
         spaceRequested = new Space({
           name: space.name,
-          email:space.email,
-          address: space.address, 
+          email: space.email,
+          address: space.address,
           opening: space.opening,
-          mobile:space.mobile,
-          rooms:space.rooms,
+          mobile: space.mobile,
+          rooms: space.rooms,
           notes: space.notes,
-          connections:space.connections,
-          social_media:space.social_media
+          connections: space.connections,
+          social_media: space.social_media
         });
         return res.status(200).json(spaceRequested);
       } else
@@ -104,9 +118,10 @@ router.get("/:space_id", (req, res) => {
           .json({ message: "There's no space with the requested ID" });
     })
     .catch(err =>
-      res.status(404).json({ message: "There's no space with the requested ID" })
+      res
+        .status(404)
+        .json({ message: "There's no space with the requested ID" })
     );
 });
-
 
 module.exports = router;

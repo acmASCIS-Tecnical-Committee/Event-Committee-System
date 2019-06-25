@@ -70,6 +70,26 @@ router.get(
   }
 );
 
+// @route   DELETE api/owner/delete
+// @desc    Delete user and profile
+// @access  Private
+//"/delete",
+router.delete(
+  "/:owner_id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    //Owner.findOneAndRemove({ _id: req.body.owner_id })
+    Owner.findOneAndRemove({ _id: req.params.owner_id })
+      .then(() => {
+        res.json({ success: true });
+      })
+      .catch(err => {
+        console.log(err);
+        res.status(404).json({ message: "Have error   " + err });
+      });
+  }
+);
+
 // @route GET api/owner/:owner_id
 // @desc get the owner data given the owner id
 // @access Public

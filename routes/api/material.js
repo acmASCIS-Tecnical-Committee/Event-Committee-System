@@ -50,7 +50,6 @@ router.post(
   }
 );
 
-
 // @route POST api/material/all
 // @desc load all materials
 // @access Private
@@ -63,18 +62,35 @@ router.get(
     const errors = {};
     Material.find()
       .then(materials => {
-          if (!materials) {
-            errors.nomaterials = "There is no materials ";
-            return res.status(404).json(errors);
-          }
-          res.json(materials);
-       
+        if (!materials) {
+          errors.nomaterials = "There is no materials ";
+          return res.status(404).json(errors);
+        }
+        res.json(materials);
       })
       .catch(err => res.status(404).json(err));
   }
 );
 
-
+// @route   DELETE api/material/delete
+// @desc    Delete user and profile
+// @access  Private
+//"/delete",
+router.delete(
+  "/:material_id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    //  Material.findOneAndRemove({ _id: req.body.material_id })
+    Material.findOneAndRemove({ _id: req.params.material_id })
+      .then(() => {
+        res.json({ success: true });
+      })
+      .catch(err => {
+        console.log(err);
+        res.status(404).json({ message: "Have error" });
+      });
+  }
+);
 
 // @route GET api/material/:material_id
 // @desc get the material data given the material id
@@ -100,11 +116,10 @@ router.get("/:material_id", (req, res) => {
           .json({ message: "There's no material with the requested ID" });
     })
     .catch(err =>
-      res.status(404).json({ message: "There's no material with the requested ID" })
+      res
+        .status(404)
+        .json({ message: "There's no material with the requested ID" })
     );
 });
-
-
-
 
 module.exports = router;

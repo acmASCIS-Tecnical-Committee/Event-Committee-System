@@ -50,7 +50,6 @@ router.post(
   }
 );
 
-
 // @route POST api/store/all
 // @desc load all stores
 // @access Private
@@ -63,18 +62,32 @@ router.get(
     const errors = {};
     Store.find()
       .then(stores => {
-          if (!stores) {
-            errors.nostores = "There is no stores ";
-            return res.status(404).json(errors);
-          }
-          res.json(stores);
-       
+        if (!stores) {
+          errors.nostores = "There is no stores ";
+          return res.status(404).json(errors);
+        }
+        res.json(stores);
       })
       .catch(err => res.status(404).json(err));
   }
 );
 
-
+// @route   DELETE api/store/delete
+// @desc    Delete store
+// @access  Private
+//"/delete",
+router.delete(
+  "/:store_id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    //  store.findOneAndRemove({ _id: req.body.store_id })
+    Store.findOneAndRemove({ _id: req.params.store_id })
+      .then(() => {
+        res.json({ success: true });
+      })
+      .catch(err => res.status(404).json({ message: "Have error" }));
+  }
+);
 
 // @route GET api/store/:store_id
 // @desc get the store data given the store id
@@ -92,7 +105,7 @@ router.get("/:store_id", (req, res) => {
           name: store.name,
           address: store.address,
           opening: store.opening,
-          mobile:store.mobile,
+          mobile: store.mobile,
           notes: store.notes
         });
         return res.status(200).json(storeRequested);
@@ -102,10 +115,10 @@ router.get("/:store_id", (req, res) => {
           .json({ message: "There's no store with the requested ID" });
     })
     .catch(err =>
-      res.status(404).json({ message: "There's no store with the requested ID" })
+      res
+        .status(404)
+        .json({ message: "There's no store with the requested ID" })
     );
 });
-
-
 
 module.exports = router;

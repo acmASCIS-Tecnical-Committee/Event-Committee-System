@@ -82,6 +82,23 @@ router.get(
   }
 );
 
+// @route   DELETE api/resource/delete
+// @desc    Delete user and profile
+// @access  Private
+//"/delete",
+router.delete(
+  "/:resource_id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    //  Resource.findOneAndRemove({ _id: req.body.resource_id })
+    Resource.findOneAndRemove({ _id: req.params.resource_id })
+      .then(() => {
+        res.json({ success: true });
+      })
+      .catch(err => res.status(404).json({ message: "Have error" }));
+  }
+);
+
 // @route GET api/resource/:resource_id
 // @desc get the resource data given the resource id
 // @access Public
