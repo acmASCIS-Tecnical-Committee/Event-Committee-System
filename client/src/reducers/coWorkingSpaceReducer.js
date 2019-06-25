@@ -18,10 +18,10 @@ export default function(state = initialState, action) {
           ...state,
           loading: true
         };
-      case GET_COWORKINGSPACE:
+      case GET_COWORKINGSPACES:
         return {
           ...state,
-          coWorkingSpace: action.payload,
+          coWorkingSpaces: action.payload,
           loading: false
         };
       case CLEAR_CURRENT_COWORKINGSPACE:

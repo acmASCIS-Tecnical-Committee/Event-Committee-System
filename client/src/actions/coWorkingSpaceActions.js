@@ -11,7 +11,7 @@ export const setcoWorkingSpaceLoding = () =>{
 export const createcoWorkingSpace = (coWorkingSpaceData, history) => dispatch => {
   axios
   .post('api/space/register', coWorkingSpaceData)
-  .then(res => history.push('/home'))
+  .then(res => history.push('/viewCoWorkingSpace'))
   .catch(err =>
     dispatch({
       type: GET_ERRORS,
@@ -20,15 +20,14 @@ export const createcoWorkingSpace = (coWorkingSpaceData, history) => dispatch =>
     );
   };
 
-// TODO
-/*
-export const getcoWorkingSpace = () => dispatch =>{
+
+export const getcoWorkingSpaces = () => dispatch =>{
     dispatch (setcoWorkingSpaceLoding ()); 
-    axios.get("api/space/")
+    axios.get("api/space/all")
     .then( 
         res=>{
             dispatch ({
-                type:GET_COWORKINGSPACE ,
+                type:GET_COWORKINGSPACES ,
                 payload :res.data
             })
         }
@@ -39,7 +38,7 @@ export const getcoWorkingSpace = () => dispatch =>{
         payload: {}
       })
     );
-};*/
+};
 
 
 export const clearCurrentcoWorkingSpace = () => {

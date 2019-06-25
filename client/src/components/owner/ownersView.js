@@ -28,18 +28,18 @@ class Owners extends Component {
 
     return (
       <div className="owners">
-        <div className="container">
-          <div className="row">
+        <div className="container ">
+          <div className="row ">
             <div className="col-md-12">
-              <h1 className="display-4 text-center">Developer Profiles</h1>
-              <p className="lead text-center">
-                Browse and connect with developers
-              </p>
+              <h1 className="display-4 text-center">Owners</h1>
+             
               {ownersItems}
-            </div>
-            <Link to="/createOwner">
-                Add new Owner
-            </Link>
+            </div >
+                      
+              <Link className= " btn btn-lg btn-block btn-outline-info " to="/createOwner">
+                  Add new Owner
+              </Link>
+            
           </div>
         </div>
       </div>

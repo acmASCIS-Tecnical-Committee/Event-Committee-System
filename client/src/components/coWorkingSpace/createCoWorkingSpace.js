@@ -103,13 +103,13 @@ class CoWorkingSpaceRegister extends Component {
       address: this.state.address,
       mobile:this.state.mobile.concat([this.state.mobileNumber]),
       social_media:this.state.social_media,
-      opening:this.state.opening.concat([this.state.opening_obj]),
+      opening:this.state.opening.concat([this.state.opening_obj,this.state.opening_obj,this.state.opening_obj,this.state.opening_obj,this.state.opening_obj,this.state.opening_obj,this.state.opening_obj]),
       connections:this.state.connections.concat([this.state.connections_obj]),
       notes:this.state.notes,
       rooms:this.state.rooms.concat([this.state.rooms_obj])
     };
-    console.log("...............................................");
-    console.log(coWorkingSpaceData);
+    //console.log("...............................................");
+  //  console.log(coWorkingSpaceData);
     this.props.createcoWorkingSpace(coWorkingSpaceData, this.props.history);
   }
 

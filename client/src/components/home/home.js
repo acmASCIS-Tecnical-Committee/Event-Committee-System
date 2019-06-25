@@ -22,10 +22,12 @@ class Home extends Component {
         else
         {
             HomeContent=<div>
-            <p>{user.name}</p>
-            <p>{user.type}</p>
-            <Link to="/createCoWorkingSpace">
-                Add new Co-Working-Space
+            <p>{profile.name}</p>
+            <p>{profile.type}</p>
+            <p>{profile.mobile}</p>
+            <p>{profile.email}</p>
+            <Link to="/viewCoWorkingSpace">
+                View Co-Working-Space
             </Link>
             <Link to="/createStore">
                 Add new Store
