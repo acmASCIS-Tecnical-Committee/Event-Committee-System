@@ -14,6 +14,8 @@ const keys = require("../../config/keys");
 const settings = require("../../config/settings");
 // to authenticate the private routes
 const passport = require("passport");
+// built in function to check on empty objects
+const isEmpty = require("../../validation/is_empty");
 
 // validation functions
 const validateLoginInput = require("../../validation/login");
@@ -44,10 +46,10 @@ router.delete(
     User.findOne({ _id: req.params.user_id })
       .then(user => {
         if (user) {
-          if (req.user.id === req.params.user_id) {
+          if (req.user.id === req.params.user_id || req.user.type === "admin") {
             User.findOneAndDelete({ _id: req.params.user_id })
               .then(user =>
-                res.json({ message: "Your accound has been deleted" })
+                res.json({ message: "this accound has been deleted" })
               )
               .catch(err => console.log(err));
           } else
@@ -196,7 +198,8 @@ router.get("/:user_id", (req, res) => {
           name: user.name,
           email: user.email,
           mobile: user.mobile,
-          type: user.type
+          type: user.type,
+          authenticate:user.authenticate
         });
         return res.status(200).json(userRequested);
       } else
@@ -204,10 +207,13 @@ router.get("/:user_id", (req, res) => {
           .status(404)
           .json({ message: "There's no user with the requested ID" });
     })
-    .catch(err =>
-      res.status(404).json({ message: "There's no user with the requested ID" })
+    .catch(err =>{
+      console.log(err);
+      res.status(404).json({ message: "There's no user with the requested ID" })}
     );
 });
+
+
 
 // @route Post api/user/update
 // @desc update the current user
@@ -220,26 +226,17 @@ router.post(
   "/update",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    //console.log("*****");
     //error in validation
     const { errors, isValid } = validateRegisterInput(req.body);
-    //console.log("33333333333/");
-
-    // Check Validation
     if (!isValid) {
-      // console.log("///////");
-      // Return any errors with 400 status
       return res.status(400).json(errors);
     }
-    //console.log("++++++");
-
     const userFields = {};
     if (req.body.name) userFields.name = req.body.name;
     if (req.body.email) userFields.email = req.body.email;
     if (req.body.password) userFields.password = req.body.password;
     if (req.body.mobile) userFields.mobile = req.body.mobile;
     if (req.body.type) userFields.type = req.body.type;
-
     User.findOne({ _id: req.user.id })
       .then(user => {
         if (user) {
@@ -262,5 +259,74 @@ router.post(
       .catch(err => console.log(err));
   }
 );
+
+
+// @route Post api/user/auth/:user_id
+// @desc authentication the  users
+// @access Private for the admin only
+// @return status :-
+// 400/404 : if there is an error with JSON message: "error message"
+// 200 : if the user has been removed with JSON message: "success"
+
+router.post(
+  "/auth/:user_id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    if(req.user.type === "admin"){
+    if (isEmpty(req.body.authentication)) {
+      const errors ="you have to enter authentication ";
+      return res.status(400).json(errors);
+    }else {
+      if(!req.body.authentication){
+        User.findOneAndRemove({ _id: req.params.user_id })
+        .then(user =>
+          res.json({ message: "this accound has been deleted" })
+        )
+        .catch(err => console.log(err)); 
+      }else{
+      User.findById({ _id: req.params.user_id })
+      .then(user => {
+        if (user) {
+          const userFields = {};
+          userFields.name = user.name;
+          userFields.email = user.email;
+          userFields.email = user.email;
+          userFields.mobile = user.mobile;
+          userFields.type = user.type;
+          userFields.authentication = req.body.authentication;
+          User.findOneAndUpdate(
+            { _id: req.params.user_id },
+            { $set: userFields },
+            { new: true }
+            // {message :userFields.name+" ++++ now able to use the system +++++++ " } +
+          )
+            .then(profile => { res.status(200).json(profile)})
+            .catch(err => {
+              console.log(err);
+              res.json({ Eror: "faild to update" });
+            });
+                  } else
+          return res
+            .status(404)
+            .json({ message: "There's no user with the requested ID" });
+      })
+      .catch(err =>{
+        console.log(err);
+        res.status(404).json({ message: "There's no user with the requested ID" })}
+      );
+      }
+  }
+}
+else{
+  res.json({ msg: "you do not have permation" });
+}
+}
+);
+
+
+
+
+
+
 
 module.exports = router;

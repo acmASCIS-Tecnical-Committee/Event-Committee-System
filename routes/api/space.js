@@ -7,6 +7,12 @@ const Space = require("../../models/space");
 // to authenticate the private routes
 const passport = require("passport");
 
+
+//test
+// built in function to check on empty objects
+const isEmpty = require("../../validation/is_empty");
+
+
 //To use Validation unction
 const validateSpaceInput = require("../../validation/space");
 
@@ -97,6 +103,15 @@ router.delete(
 // 200 : if the space is found successfully and all it's data
 // reutrn JSON of the requested space => {name:,email:,notes:,address:,mobile:,opening:,rooms:,connections:,social_media:}
 router.get("/:space_id", (req, res) => {
+
+//for test ****************************************************
+  // if(isEmpty(req.body.pp) )
+  //   console.log( typeof(req.body.pp)+"   empty");
+  // else 
+  //   console.log( typeof(req.body.pp)+"  not empty");
+
+  //       *****************************************************
+
   Space.findById({ _id: req.params.space_id })
     .then(space => {
       if (space) {

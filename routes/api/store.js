@@ -121,4 +121,55 @@ router.get("/:store_id", (req, res) => {
     );
 });
 
+
+
+// // @route Post api/store/update
+// // @desc update the current store
+// // @access Private for the same store only
+// // @return status :-
+// // 400/404 : if there is an error with JSON message: "error message"
+// // 200 : if the store has been removed with JSON message: "success"
+
+// router.post(
+//   "/update/:store_id",
+//   passport.authenticate("jwt", { session: false }),
+//   (req, res) => {
+//     //error in validation
+//     const { errors, isValid } = validateStore(req.body);
+//     if (!isValid) {
+//       return res.status(400).json(errors);
+//     }
+//     const storeFields = {};
+//     if (req.body.name) storeFields.name = req.body.name;
+//     if (req.body.address) storeFields.address = req.body.address;
+//     if (req.body.opening) storeFields.opening = req.body.opening;
+//     if (req.body.notes) storeFields.notes = req.body.notes;
+//     if (req.body.mobile) storeFields.mobile = req.body.mobile;
+//     storeFields.updated=Date.now();
+//     Store.findOne({ _id:req.params.store_id })
+//       .then(store => {
+//         if (store) {
+//           // if (req.store.id === req.params.store_id) {
+//           Store.findOneAndUpdate(
+//             { _id: req.params.store_id },
+//             { $set: storeFields },
+//             { new: true }
+//           )
+//             .then(profile => res.json(profile))
+//             .catch(err => {
+//               console.log(err);
+//               res.json({ Eror: "faild to update" });
+//             });
+
+//           // } else
+//           //   return res.status(400).json({ messgae: "Unauthorized Deletion" });
+//         } else return res.status(404).json({ message: "Store not found" });
+//       })
+//       .catch(err => console.log(err));
+//   }
+// );
+
+
+
+
 module.exports = router;
