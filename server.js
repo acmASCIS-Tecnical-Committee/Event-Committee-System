@@ -59,7 +59,11 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 
+const port = process.env.PORT || settings.backendPort;
+
+//app.listen(port, () => console.log(`Server running on port ${port}`));
+
 // use localhost:5000
-app.listen(settings.backendPort, () =>
-  console.log("server running " + settings.backendPort)
+app.listen(port, () =>
+  console.log("server running ${port}")
 );
