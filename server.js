@@ -3,7 +3,8 @@ const mongoose = require("mongoose"); // to connect to the db
 const bodyParser = require("body-parser"); // use bodyparser to parse req.body
 const passport = require("passport"); // use passport to validate JWT
 const settings = require("./config/settings"); // to import ports from settings
-const path = require("path");
+const path = require('path');
+
 // Import APIs
 const store = require("./routes/api/store");
 const user = require("./routes/api/user");
@@ -65,5 +66,5 @@ const port = process.env.PORT || settings.backendPort;
 
 // use localhost:5000
 app.listen(port, () =>
-  console.log("server running ${port}")
+  console.log("server running "+port)
 );
