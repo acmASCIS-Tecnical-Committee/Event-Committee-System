@@ -26,11 +26,11 @@ const SpaceSchema = new Schema({
       required: true
     }
   },
-  mobile: {
-    type: [String],
-    // todo make sure what true here will do
-    required: false
-  },
+  mobile: [
+    {
+      type: String
+    }
+  ],
   rooms: {
     type: [
       {
@@ -64,25 +64,23 @@ const SpaceSchema = new Schema({
     type: String,
     required: false
   },
-  connections: {
-    type: [
-      {
-        mobile: {
-          type: String,
-          required: true
-        },
-        name: {
-          type: String,
-          required: true
-        },
-        notes: {
-          type: String,
-          required: false
+  connections: [
+    {
+      mobile: [
+        {
+          type: String
         }
+      ],
+      name: {
+        type: String,
+        required: true
+      },
+      notes: {
+        type: String,
+        required: false
       }
-    ],
-    required: false
-  },
+    }
+  ],
   opening: {
     type: [
       {
@@ -104,4 +102,4 @@ const SpaceSchema = new Schema({
   }
 });
 
-module.exports = Space = mongoose.model("space", SpaceSchema);
+module.exports = space = mongoose.model("spaces", SpaceSchema);

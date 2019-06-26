@@ -26,7 +26,7 @@ module.exports = function validateMaterialInput(data) {
       "The name must contain at least 3 letters and at most 100 letter";
   }
 
-  if (!isEmpty(data.notes) && validator.isLength(data.notes, notes)) {
+  if (!isEmpty(data.notes) && !validator.isLength(data.notes, notes)) {
     errors.notes = "You can enter maximum 500 letter";
   }
 

@@ -22,8 +22,26 @@ class Home extends Component {
         else
         {
             HomeContent=<div>
-            <p>{user.name}</p>
-            <p>{user.type}</p>
+            <p>{profile.name}</p>
+            <p>{profile.type}</p>
+            <p>{profile.mobile}</p>
+            <p>{profile.email}</p>
+            <Link to="/viewCoWorkingSpace">
+                View Co-Working-Space
+            </Link>
+            <Link to="/viewStores">
+                View Stores
+            </Link>
+            <Link to="/viewResources">
+                View Resources
+            </Link>
+            
+            <Link to="/viewMaterials">
+                View Material
+            </Link>
+            <Link to="/viewOwners">
+                View Onwers
+            </Link>
             </div>;
         }
         return HomeContent;

@@ -4,6 +4,14 @@ const express = require("express");
 const router = express.Router();
 //To acsses space database schema
 const Space = require("../../models/space");
+// to authenticate the private routes
+const passport = require("passport");
+
+
+//test
+// built in function to check on empty objects
+const isEmpty = require("../../validation/is_empty");
+
 
 //To use Validation unction
 const validateSpaceInput = require("../../validation/space");
@@ -46,5 +54,146 @@ router.post("/register", (req, res) => {
     });
   }
 });
+
+// @route POST api/space/all
+// @desc load all spaces
+// @access Private
+// @return validate the jwt token
+
+router.get(
+  "/all",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    const errors = {};
+    Space.find()
+      .then(spaces => {
+        if (!spaces) {
+          errors.nospaces = "There is no spaces ";
+          return res.status(404).json(errors);
+        }
+        res.json(spaces);
+      })
+      .catch(err => res.status(404).json(err));
+  }
+);
+
+// @route   DELETE api/space/delete
+// @desc    Delete space
+// @access  Private
+//"/delete",
+router.delete(
+  "/:space_id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    //  space.findOneAndRemove({ _id: req.body.space_id })
+    Space.findOneAndRemove({ _id: req.params.space_id })
+      .then(() => {
+        res.json({ success: true });
+      })
+      .catch(err => res.status(404).json({ message: "Have error" }));
+  }
+);
+
+// @route GET api/space/:space_id
+// @desc get the space data given the space id
+// @access Public
+// @params space_id: "the required space ID"
+// @return:-
+// 404 : if there is no such space and {"messsage": the error}
+// 200 : if the space is found successfully and all it's data
+// reutrn JSON of the requested space => {name:,email:,notes:,address:,mobile:,opening:,rooms:,connections:,social_media:}
+router.get("/:space_id", (req, res) => {
+
+//for test ****************************************************
+  // if(isEmpty(req.body.pp) )
+  //   console.log( typeof(req.body.pp)+"   empty");
+  // else 
+  //   console.log( typeof(req.body.pp)+"  not empty");
+
+  //       *****************************************************
+
+  Space.findById({ _id: req.params.space_id })
+    .then(space => {
+      if (space) {
+        spaceRequested = new Space({
+          name: space.name,
+          email: space.email,
+          address: space.address,
+          opening: space.opening,
+          mobile: space.mobile,
+          rooms: space.rooms,
+          notes: space.notes,
+          connections: space.connections,
+          social_media: space.social_media
+        });
+        return res.status(200).json(spaceRequested);
+      } else
+        return res
+          .status(404)
+          .json({ message: "There's no space with the requested ID" });
+    })
+    .catch(err =>
+      res
+        .status(404)
+        .json({ message: "There's no space with the requested ID" })
+    );
+});
+
+
+
+
+
+// @route Post api/space/update/:space_id
+// @desc update the current space
+// @access Private for any user
+// @return status :-
+// 400/404 : if there is an error with JSON message: "error message"
+// 200 : if the space has been removed with JSON message: "success"
+
+router.post(
+  "/update/:space_id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    //error in validation
+    const { errors, isValid } = validateSpaceInput(req.body);
+    if (!isValid) {
+      return res.status(400).json(errors);
+    }
+    const spaceFields = {};
+    if (req.body.name) spaceFields.name = req.body.name;
+    if (req.body.email) spaceFields.email = req.body.email;
+    if (req.body.address) spaceFields.address = req.body.address;
+    if (req.body.mobile) spaceFields.mobile = req.body.mobile;
+    if (req.body.rooms) spaceFields.rooms = req.body.rooms;
+    if (req.body.notes) spaceFields.notes = req.body.notes;
+    if (req.body.connections) spaceFields.connections = req.body.connections;
+    if (req.body.opening) spaceFields.opening = req.body.opening;
+    if (req.body.social_media) spaceFields.social_media = req.body.social_media;
+
+
+
+    Space.findOne({ _id:req.params.space_id })
+      .then(space => {
+        if (space) {
+          // if (req.space.id === req.params.space_id) {
+          Space.findOneAndUpdate(
+            { _id: req.params.space_id },
+            { $set: spaceFields },
+            { new: true }
+          )
+            .then(space => res.json(space))
+            .catch(err => {
+              console.log(err);
+              res.json({ Eror: "faild to update" });
+            });
+
+          // } else
+          //   return res.status(400).json({ messgae: "Unauthorized Deletion" });
+        } else return res.status(404).json({ message: "Space not found" });
+      })
+      .catch(err => console.log(err));
+  }
+);
+
 
 module.exports = router;

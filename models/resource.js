@@ -16,6 +16,15 @@ const resourceSchema = new Schema({
     type: String,
     required: false
   },
+
+  feedback: {
+    type: String,
+    required: false
+  },
+  userId: {
+    type: Schema.Types.ObjectId,
+    ref: "user"
+  },
   owner: [
     {
       updated: {

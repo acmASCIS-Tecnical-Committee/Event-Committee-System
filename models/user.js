@@ -27,6 +27,10 @@ const userSchema = new Schema({
   type: {
     type: String,
     default: "user"
+  },
+  authentication:{
+    type:Boolean,
+    default:false
   }
 });
 

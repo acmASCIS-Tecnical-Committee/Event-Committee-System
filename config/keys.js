@@ -1,6 +1,5 @@
-module.exports = {
-  mongoURI: 'mongodb+srv://mostafa:mostafa@cluster0-wd5re.mongodb.net/test?retryWrites=true&w=majority',
-  // 'mongodb+srv://khadiga:khadiga@devconnector-is8hj.mongodb.net/test?retryWrites=true&w=majority',
-  //  mongoURI: "mongodb://mahmoudali:ali123@ds115434.mlab.com:15434/todolist",
-  secret: "TechnicalCommitteeSecret"
-};
+if (process.env.NODE_ENV === 'production') {
+  module.exports = require('./keys_prod');
+} else {
+  module.exports = require('./keys_dev');
+}
