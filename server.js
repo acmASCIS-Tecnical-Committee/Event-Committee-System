@@ -23,7 +23,7 @@ const db = require("./config/keys").mongoURI;
 
 // connect to mongodb
 mongoose
-  .connect(db)
+  .connect(db , { useFindAndModify: false })
   .then(() => console.log("Database Connected."))
   .catch(err => console.log(err));
 

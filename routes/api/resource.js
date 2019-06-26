@@ -131,4 +131,55 @@ router.get("/:resource_id", (req, res) => {
     );
 });
 
+
+
+
+// @route Post api/resource/update/:resource_id
+// @desc update the current resource
+// @access Private for any user
+// @return status :-
+// 400/404 : if there is an error with JSON message: "error message"
+// 200 : if the resource has been removed with JSON message: "success"
+
+router.post(
+  "/update/:resource_id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    //error in validation
+    const { errors, isValid } = validateResourceInput(req.body);
+    if (!isValid) {
+      return res.status(400).json(errors);
+    }
+    const resourceFields = {};
+    if (req.body.name) resourceFields.name = req.body.name;
+    if (req.body.details) resourceFields.details = req.body.details;
+    if (req.body.feedback) resourceFields.feedback = req.body.feedback;
+    if (req.body.userId) resourceFields.userId = req.body.userId;
+    if (req.body.owner) resourceFields.owner = req.body.owner;
+    
+    Resource.findOne({ _id:req.params.resource_id })
+      .then(resource => {
+        if (resource) {
+          // if (req.resource.id === req.params.resource_id) {
+          Resource.findOneAndUpdate(
+            { _id: req.params.resource_id },
+            { $set: resourceFields },
+            { new: true }
+          )
+            .then(resource => res.json(resource))
+            .catch(err => {
+              console.log(err);
+              res.json({ Eror: "faild to update" });
+            });
+
+          // } else
+          //   return res.status(400).json({ messgae: "Unauthorized Deletion" });
+        } else return res.status(404).json({ message: "Resource not found" });
+      })
+      .catch(err => console.log(err));
+  }
+);
+
+
+
 module.exports = router;
