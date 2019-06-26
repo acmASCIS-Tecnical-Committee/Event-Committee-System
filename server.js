@@ -3,7 +3,7 @@ const mongoose = require("mongoose"); // to connect to the db
 const bodyParser = require("body-parser"); // use bodyparser to parse req.body
 const passport = require("passport"); // use passport to validate JWT
 const settings = require("./config/settings"); // to import ports from settings
-
+const path = require("path");
 // Import APIs
 const store = require("./routes/api/store");
 const user = require("./routes/api/user");
@@ -47,6 +47,17 @@ app.use("/api/resource", resource);
 app.use("/api/space", space);
 // route to material API
 app.use("/api/material", material);
+
+// Server static assets if in production
+if (process.env.NODE_ENV === 'production') {
+  // Set static folder
+  app.use(express.static('client/build'));
+
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+  });
+}
+
 
 // use localhost:5000
 app.listen(settings.backendPort, () =>
