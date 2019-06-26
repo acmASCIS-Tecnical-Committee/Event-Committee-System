@@ -75,46 +75,65 @@ router.get(
   }
 );
 
-// // @route   DELETE api/store/delete
-// // @desc    Delete store
-// // @access  Private
-// //"/delete",
-// router.delete(
-//   "/:store_id",
-//   passport.authenticate("jwt", { session: false }),
-//   (req, res) => {
-//     //  store.findOneAndRemove({ _id: req.body.store_id })
-//     Store.findOneAndRemove({ _id: req.params.store_id })
-//       .then(() => {
-//         Material.find().then(materials => {
-//           if (!materials) {
-//             res.json({ success: "true" });
-//           } else {
-//             materials.forEach(material => {
-//               if (material.providers.find(req.params.store_id)) {
-//                 const removeIndeex = material.providers
-//                   .map(item => item.store_id)
-//                   .indexOf(req.params.store_id);
 
-//                 material.providers.splice(removeIndeex, 1);
 
-//                 material
-//                   .save()
-//                   .then(material => res.status(200).json(material))
-//                   .catch(err => {
-//                     console.log(err);
-//                     res
-//                       .status(404)
-//                       .json({ message: "internal error can't save update " });
-//                   });
-//               }
-//             });
-//           }
-//         });
-//       })
-//       .catch(err => res.status(404).json({ message: "Have error" }));
-//   }
-// );
+
+
+// @route   DELETE api/store/delete
+// @desc    Delete store
+// @access  Private
+//"/delete",
+router.delete(
+  "/:store_id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    console.log("111111111111111111111");
+    //  store.findOneAndRemove({ _id: req.body.store_id })
+    Store.findOneAndRemove({ _id: req.params.store_id })
+      .then(() => {
+        console.log("RRRRRRRRRRRRRRRRRRRRRRRRRRR");
+        Material.find().then(materials => {
+          if (!materials) {
+            console.log("nooooooooooooooooooooooooMMMMMMMM");
+            res.json({ success: "true" });
+          } else {
+            materials.forEach(material => {
+              console.log("Maaaaaaaaaaaaaaaatttt");
+                let providers=material.providers;
+            providers.forEach(provider =>{
+              console.log("Prooooooooooooooooooooooooovi  " + provider );
+              if(provider.store_id == req.params.store_id){
+                console.log("YYYYYYYYYYYYyy");
+                  const removeIndeex = material.providers
+                            .map(item => item.id)
+                            .indexOf(provider._id);
+          
+                          material.providers.splice(removeIndeex, 1);
+          
+                          material
+                            .save()
+                            .then(material => console.log(material))
+                            .catch(err => {
+                              console.log(err);
+                              res
+                                .status(404)
+                                .json({ message: "internal error can't save update " });
+                            });
+              }
+            });
+
+          });
+          
+                       
+          }
+        });
+        return res.status(200).json({ message: "Done" })
+      })
+      .catch(err => res.status(404).json({ message: "Have error" }));
+  }
+);
+
+
 
 // router.delete(
 //   "/tttt/:store_id",
