@@ -198,47 +198,4 @@ router.post(
   }
 );
 
-// router.delete(
-//   "/tttt/:store_id",
-//   passport.authenticate("jwt", { session: false }),
-//   (req, res) => {
-//     const errors = {};
-//     Material.providers
-//       .find({ store_id: req.params.store_id })
-//       .then(providerss => {
-//         providerss
-//           .delete()
-//           .then(res.json({ message: "++++++++++" }))
-//           .catch(err => {
-//             console.log("------------   " + err);
-//             res.json({ message: "-----------------------" });
-//           });
-
-//         providerss
-//           .save()
-//           .then(pro => res.status(200).json(pro))
-//           .catch(err => {
-//             console.log(err);
-//             res
-//               .status(404)
-//               .json({ message: "internal error can't save update " });
-//           });
-//       })
-//       .catch(err => {
-//         console.log(err);
-//         res.json({ message: "Balah" });
-//       });
-
-//     // Material.find()
-//     //   .then(materials => {
-//     //     if (!materials) {
-//     //       errors.nomaterials = "There is no materials ";
-//     //       return res.status(404).json(errors);
-//     //     }
-//     //     res.json(materials);
-//     //   })
-//     //   .catch(err => res.status(404).json(err));
-//   }
-// );
-
 module.exports = router;
