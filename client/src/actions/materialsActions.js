@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {GET_ERRORS, MATERIALS_LOADING, CLEAR_CURRENT_MATERIALS} from './types';
+import {GET_ERRORS, MATERIALS_LOADING, CLEAR_CURRENT_MATERIALS, GET_MATERIALS} from './types';
 
 
 export const setMaterialsLoding = () =>{
@@ -20,26 +20,25 @@ export const createMaterial = (MaterialData, history) => dispatch => {
     );
   };
 
-// TODO
-/*
-export const getcoWorkingSpace = () => dispatch =>{
-    dispatch (setcoWorkingSpaceLoding ()); 
-    axios.get("api/space/")
+
+export const getMaterials = () => dispatch =>{
+    dispatch (setMaterialsLoding ()); 
+    axios.get("api/material/all")
     .then( 
         res=>{
             dispatch ({
-                type:GET_COWORKINGSPACE ,
+                type:GET_MATERIALS,
                 payload :res.data
             })
         }
     )
     .catch(err =>
       dispatch({
-        type: GET_COWORKINGSPACE,
+        type: GET_MATERIALS,
         payload: {}
       })
     );
-};*/
+};
 
 
 export const clearCurrentMaterials = () => {

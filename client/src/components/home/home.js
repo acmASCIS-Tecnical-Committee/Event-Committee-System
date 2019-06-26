@@ -36,8 +36,8 @@ class Home extends Component {
                 Add new Resource
             </Link>
             
-            <Link to="/createMaterial">
-                Add new Material
+            <Link to="/viewMaterials">
+                View Material
             </Link>
             <Link to="/viewOwners">
                 View Onwers
