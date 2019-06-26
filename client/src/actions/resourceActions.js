@@ -1,8 +1,8 @@
 import axios from 'axios';
-import {GET_ERRORS, RESOURCES_LOADING, CLEAR_CURRENT_RESOURCES} from './types';
+import {GET_ERRORS, RESOURCES_LOADING, CLEAR_CURRENT_RESOURCES, GET_RESOURCES} from './types';
 
 
-export const setStoresLoding = () =>{
+export const setResourcesLoding = () =>{
     return {
         type:RESOURCES_LOADING
     };
@@ -20,26 +20,25 @@ export const createResource = (ResourceData, history) => dispatch => {
     );
   };
 
-// TODO
-/*
-export const getcoWorkingSpace = () => dispatch =>{
-    dispatch (setcoWorkingSpaceLoding ()); 
-    axios.get("api/space/")
+
+export const getResources = () => dispatch =>{
+    dispatch (setResourcesLoding ()); 
+    axios.get("api/resource/all")
     .then( 
         res=>{
             dispatch ({
-                type:GET_COWORKINGSPACE ,
+                type:GET_RESOURCES ,
                 payload :res.data
             })
         }
     )
     .catch(err =>
       dispatch({
-        type: GET_COWORKINGSPACE,
+        type: GET_RESOURCES,
         payload: {}
       })
     );
-};*/
+};
 
 
 export const clearCurrentResources = () => {

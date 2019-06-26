@@ -11,7 +11,7 @@ export const setStoresLoding = () =>{
 export const createStore = (StoreData, history) => dispatch => {
   axios
   .post('api/store/register', StoreData)
-  .then(res => history.push('/home'))
+  .then(res => history.push('/viewStores'))
   .catch(err =>
     dispatch({
       type: GET_ERRORS,
@@ -20,26 +20,24 @@ export const createStore = (StoreData, history) => dispatch => {
     );
   };
 
-// TODO
-/*
-export const getcoWorkingSpace = () => dispatch =>{
-    dispatch (setcoWorkingSpaceLoding ()); 
-    axios.get("api/space/")
+export const getStores = () => dispatch =>{
+    dispatch (setStoresLoding ()); 
+    axios.get("api/store/all")
     .then( 
         res=>{
             dispatch ({
-                type:GET_COWORKINGSPACE ,
+                type:GET_STORES ,
                 payload :res.data
             })
         }
     )
     .catch(err =>
       dispatch({
-        type: GET_COWORKINGSPACE,
+        type: GET_STORES,
         payload: {}
       })
     );
-};*/
+};
 
 
 export const clearCurrentStores = () => {

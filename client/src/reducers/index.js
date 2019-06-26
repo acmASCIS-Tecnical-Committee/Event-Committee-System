@@ -11,9 +11,9 @@ export default combineReducers({
   auth: authReducer,
   errors: errorReducer,
   profile : profileReducer,
-  coWorkingSpace:coWorkingSpaceReducer,
+  coWorkingSpaces:coWorkingSpaceReducer,
   stores:storesReducer,
   resources : resourceReducer,
-  owner: ownerReducer,
+  owners: ownerReducer,
   materials : materialsReducer
 });

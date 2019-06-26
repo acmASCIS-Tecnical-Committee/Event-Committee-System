@@ -11,7 +11,7 @@ class CoWorkingSpaces extends Component {
   }
 
   render() {
-    const { coWorkingSpaces, loading } = this.props.coWorkingSpace;
+    const { coWorkingSpaces, loading } = this.props.coWorkingSpaces;
     let coWorkingSpaceItems;
 
     if (coWorkingSpaces === null || loading) {
@@ -53,7 +53,7 @@ class CoWorkingSpaces extends Component {
 // };
 
 const mapStateToProps = state => ({
-  coWorkingSpace: state.coWorkingSpace
+  coWorkingSpaces: state.coWorkingSpaces
 });
 
 export default connect(mapStateToProps, { getcoWorkingSpaces })(CoWorkingSpaces);

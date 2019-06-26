@@ -11,7 +11,7 @@ class Owners extends Component {
   }
 
   render() {
-    const { owners, loading } = this.props.owner;
+    const { owners, loading } = this.props.owners;
     let ownersItems;
 
     if (owners === null || loading) {
@@ -53,7 +53,7 @@ class Owners extends Component {
 // };
 
 const mapStateToProps = state => ({
-  owner: state.owner
+  owners: state.owners
 });
 
 export default connect(mapStateToProps, { getOwners })(Owners);

@@ -23,6 +23,8 @@ import MaterialRegister from './components/materials/createMaterial';
 import Owners from './components/owner/ownersView';
 import CoWorkingSpaces from './components/coWorkingSpace/coWorkingSpaceView';
 import Materials from './components/materials/materialsView';
+import Stores from './components/stores/storeView';
+import Resources from './components/resources/resourcesView';
 // Check for token
 if (localStorage.jwtToken) {
   // Set auth token header auth
@@ -64,6 +66,8 @@ class App extends Component {
               <Route exact path="/viewOwners" component={Owners} />
               <Route exact path="/viewCoWorkingSpace" component={CoWorkingSpaces} />
               <Route exact path="/viewMaterials" component={Materials} />
+              <Route exact path="/viewStores" component={Stores} />
+              <Route exact path="/viewResources" component={Resources} />
 
               
 

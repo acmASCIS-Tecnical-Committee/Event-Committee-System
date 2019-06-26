@@ -29,11 +29,11 @@ class Home extends Component {
             <Link to="/viewCoWorkingSpace">
                 View Co-Working-Space
             </Link>
-            <Link to="/createStore">
-                Add new Store
+            <Link to="/viewStores">
+                View Stores
             </Link>
-            <Link to="/createResource">
-                Add new Resource
+            <Link to="/viewResources">
+                View Resources
             </Link>
             
             <Link to="/viewMaterials">
