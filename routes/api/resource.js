@@ -1,3 +1,8 @@
+//TODO in validation -> material can't the same store for one material
+//TODO  add valied (messeage || return)
+//TODO clean code
+//TODO update comment
+
 //To use Router
 const express = require("express");
 //To acsses GET && POST Requests from Router
@@ -131,9 +136,6 @@ router.get("/:resource_id", (req, res) => {
     );
 });
 
-
-
-
 // @route Post api/resource/update/:resource_id
 // @desc update the current resource
 // @access Private for any user
@@ -156,8 +158,8 @@ router.post(
     if (req.body.feedback) resourceFields.feedback = req.body.feedback;
     if (req.body.userId) resourceFields.userId = req.body.userId;
     if (req.body.owner) resourceFields.owner = req.body.owner;
-    
-    Resource.findOne({ _id:req.params.resource_id })
+
+    Resource.findOne({ _id: req.params.resource_id })
       .then(resource => {
         if (resource) {
           // if (req.resource.id === req.params.resource_id) {
@@ -179,7 +181,5 @@ router.post(
       .catch(err => console.log(err));
   }
 );
-
-
 
 module.exports = router;

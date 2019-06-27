@@ -1,3 +1,8 @@
+//TODO in validation -> material can't the same store for one material
+//TODO  add valied (messeage || return)
+//TODO clean code
+//TODO update comment
+
 // to use Router
 const express = require("express");
 // to use get/post requests from it
@@ -75,108 +80,54 @@ router.get(
   }
 );
 
-
-
-
-
 // @route   DELETE api/store/delete
 // @desc    Delete store
 // @access  Private
-//"/delete",
 router.delete(
   "/:store_id",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    console.log("111111111111111111111");
-    //  store.findOneAndRemove({ _id: req.body.store_id })
     Store.findOneAndRemove({ _id: req.params.store_id })
       .then(() => {
-        console.log("RRRRRRRRRRRRRRRRRRRRRRRRRRR");
-        Material.find().then(materials => {
-          if (!materials) {
-            console.log("nooooooooooooooooooooooooMMMMMMMM");
-            res.json({ success: "true" });
-          } else {
-            materials.forEach(material => {
-              console.log("Maaaaaaaaaaaaaaaatttt");
-                let providers=material.providers;
-            providers.forEach(provider =>{
-              console.log("Prooooooooooooooooooooooooovi  " + provider );
-              if(provider.store_id == req.params.store_id){
-                console.log("YYYYYYYYYYYYyy");
-                  const removeIndeex = material.providers
-                            .map(item => item.id)
-                            .indexOf(provider._id);
-          
-                          material.providers.splice(removeIndeex, 1);
-          
-                          material
-                            .save()
-                            .then(material => console.log(material))
-                            .catch(err => {
-                              console.log(err);
-                              res
-                                .status(404)
-                                .json({ message: "internal error can't save update " });
-                            });
-              }
-            });
+        Material.find()
+          .then(materials => {
+            if (!materials) {
+              res.json({ success: "true" });
+            } else {
+              materials.forEach(material => {
+                let providers = material.providers;
+                providers.forEach(provider => {
+                  console.log(provider);
+                  if (provider.store_id == req.params.store_id) {
+                    const removeIndeex = material.providers
+                      .map(item => item.id)
+                      .indexOf(provider._id);
 
+                    material.providers.splice(removeIndeex, 1);
+
+                    material
+                      .save()
+                      .then(material => console.log(material))
+                      .catch(err => {
+                        console.log(err);
+                        res.status(404).json({
+                          message: "internal error can't save update "
+                        });
+                      });
+                  }
+                });
+              });
+            }
+          })
+          .catch(err => {
+            console.log(err);
+            res.status(404).json({ message: "enternal error in server" });
           });
-          
-                       
-          }
-        });
-        return res.status(200).json({ message: "Done" })
+        return res.status(200).json({ message: "Done" });
       })
       .catch(err => res.status(404).json({ message: "Have error" }));
   }
 );
-
-
-
-// router.delete(
-//   "/tttt/:store_id",
-//   passport.authenticate("jwt", { session: false }),
-//   (req, res) => {
-//     const errors = {};
-//     Material.providers
-//       .find({ store_id: req.params.store_id })
-//       .then(providerss => {
-//         providerss
-//           .delete()
-//           .then(res.json({ message: "++++++++++" }))
-//           .catch(err => {
-//             console.log("------------   " + err);
-//             res.json({ message: "-----------------------" });
-//           });
-
-//         providerss
-//           .save()
-//           .then(pro => res.status(200).json(pro))
-//           .catch(err => {
-//             console.log(err);
-//             res
-//               .status(404)
-//               .json({ message: "internal error can't save update " });
-//           });
-//       })
-//       .catch(err => {
-//         console.log(err);
-//         res.json({ message: "Balah" });
-//       });
-
-//     // Material.find()
-//     //   .then(materials => {
-//     //     if (!materials) {
-//     //       errors.nomaterials = "There is no materials ";
-//     //       return res.status(404).json(errors);
-//     //     }
-//     //     res.json(materials);
-//     //   })
-//     //   .catch(err => res.status(404).json(err));
-//   }
-// );
 
 // @route GET api/store/:store_id
 // @desc get the store data given the store id
