@@ -1,3 +1,8 @@
+//TODO in validation -> material can't the same store for one material
+//TODO  add valied (messeage || return)
+//TODO clean code
+//TODO update comment
+
 // to use Router from it
 const express = require("express");
 // to use get/post requests from it
@@ -199,7 +204,7 @@ router.get("/:user_id", (req, res) => {
           email: user.email,
           mobile: user.mobile,
           type: user.type,
-          authenticate:user.authenticate
+          authenticate: user.authenticate
         });
         return res.status(200).json(userRequested);
       } else
@@ -207,13 +212,13 @@ router.get("/:user_id", (req, res) => {
           .status(404)
           .json({ message: "There's no user with the requested ID" });
     })
-    .catch(err =>{
+    .catch(err => {
       console.log(err);
-      res.status(404).json({ message: "There's no user with the requested ID" })}
-    );
+      res
+        .status(404)
+        .json({ message: "There's no user with the requested ID" });
+    });
 });
-
-
 
 // @route Post api/user/update
 // @desc update the current user
@@ -260,7 +265,6 @@ router.post(
   }
 );
 
-
 // @route Post api/user/auth/:user_id
 // @desc authentication the  users
 // @access Private for the admin only
@@ -272,61 +276,58 @@ router.post(
   "/auth/:user_id",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    if(req.user.type === "admin"){
-    if (isEmpty(req.body.authentication)) {
-      const errors ="you have to enter authentication ";
-      return res.status(400).json(errors);
-    }else {
-      if(!req.body.authentication){
-        User.findOneAndRemove({ _id: req.params.user_id })
-        .then(user =>
-          res.json({ message: "this accound has been deleted" })
-        )
-        .catch(err => console.log(err)); 
-      }else{
-      User.findById({ _id: req.params.user_id })
-      .then(user => {
-        if (user) {
-          const userFields = {};
-          userFields.name = user.name;
-          userFields.email = user.email;
-          userFields.email = user.email;
-          userFields.mobile = user.mobile;
-          userFields.type = user.type;
-          userFields.authentication = req.body.authentication;
-          User.findOneAndUpdate(
-            { _id: req.params.user_id },
-            { $set: userFields },
-            { new: true }
-            // {message :userFields.name+" ++++ now able to use the system +++++++ " } +
-          )
-            .then(profile => { res.status(200).json(profile)})
+    if (req.user.type === "admin") {
+      if (isEmpty(req.body.authentication)) {
+        const errors = "you have to enter authentication ";
+        return res.status(400).json(errors);
+      } else {
+        if (!req.body.authentication) {
+          User.findOneAndRemove({ _id: req.params.user_id })
+            .then(user =>
+              res.json({ message: "this accound has been deleted" })
+            )
+            .catch(err => console.log(err));
+        } else {
+          User.findById({ _id: req.params.user_id })
+            .then(user => {
+              if (user) {
+                const userFields = {};
+                userFields.name = user.name;
+                userFields.email = user.email;
+                userFields.email = user.email;
+                userFields.mobile = user.mobile;
+                userFields.type = user.type;
+                userFields.authentication = req.body.authentication;
+                User.findOneAndUpdate(
+                  { _id: req.params.user_id },
+                  { $set: userFields },
+                  { new: true }
+                  // {message :userFields.name+" ++++ now able to use the system +++++++ " } +
+                )
+                  .then(profile => {
+                    res.status(200).json(profile);
+                  })
+                  .catch(err => {
+                    console.log(err);
+                    res.json({ Eror: "faild to update" });
+                  });
+              } else
+                return res
+                  .status(404)
+                  .json({ message: "There's no user with the requested ID" });
+            })
             .catch(err => {
               console.log(err);
-              res.json({ Eror: "faild to update" });
+              res
+                .status(404)
+                .json({ message: "There's no user with the requested ID" });
             });
-                  } else
-          return res
-            .status(404)
-            .json({ message: "There's no user with the requested ID" });
-      })
-      .catch(err =>{
-        console.log(err);
-        res.status(404).json({ message: "There's no user with the requested ID" })}
-      );
+        }
       }
+    } else {
+      res.json({ msg: "you do not have permation" });
+    }
   }
-}
-else{
-  res.json({ msg: "you do not have permation" });
-}
-}
 );
-
-
-
-
-
-
 
 module.exports = router;

@@ -1,3 +1,8 @@
+//TODO in validation -> material can't the same store for one material
+//TODO  add valied (messeage || return)
+//TODO clean code
+//TODO update comment
+
 //To use Router
 const express = require("express");
 //To acsses GET && POST Requests from Router
@@ -6,6 +11,8 @@ const router = express.Router();
 const Owner = require("../../models/owner");
 // to authenticate the private routes
 const passport = require("passport");
+//To acsses resource database schema
+const Resource = require("../../models/resource");
 
 //To use Validation unction
 const validateOwnerInput = require("../../validation/owner");
@@ -73,20 +80,59 @@ router.get(
 // @route   DELETE api/owner/delete
 // @desc    Delete user and profile
 // @access  Private
-//"/delete",
 router.delete(
   "/:owner_id",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    //Owner.findOneAndRemove({ _id: req.body.owner_id })
+    console.log("in route.......................");
     Owner.findOneAndRemove({ _id: req.params.owner_id })
       .then(() => {
-        res.json({ success: true });
+        console.log("find owner and remove it ........................");
+        Resource.find()
+          .then(resources => {
+            if (!resources) {
+              console.log("hasn't relation ........................");
+              res.json({ success: "true" });
+            } else {
+              console.log("has relation ........................");
+              resources.forEach(resource => {
+                console.log(
+                  "in outer loop......................................"
+                );
+                let owners = resource.owner;
+                owners.forEach(owner => {
+                  console.log(owner);
+                  if (owner.ownerId == req.params.owner_id) {
+                    console.log("find one ............................");
+                    const removeIndeex = resource.owner
+                      .map(item => item.id)
+                      .indexOf(owner._id);
+
+                    resource.owner.splice(removeIndeex, 1);
+
+                    resource
+                      .save()
+                      .then(resource =>
+                        console.log("*******************" + resource)
+                      )
+                      .catch(err => {
+                        console.log(err);
+                        res.status(404).json({
+                          message: "internal error can't save update "
+                        });
+                      });
+                  }
+                });
+              });
+            }
+          })
+          .catch(err => {
+            console.log(err);
+            res.status(404).json({ message: "enternal error in server" });
+          });
+        return res.status(200).json({ message: "Done" });
       })
-      .catch(err => {
-        console.log(err);
-        res.status(404).json({ message: "Have error   " + err });
-      });
+      .catch(err => res.status(404).json({ message: "Have error" }));
   }
 );
 
@@ -121,10 +167,6 @@ router.get("/:owner_id", (req, res) => {
     );
 });
 
-
-
-
-
 // @route Post api/owner/update/:owner_id
 // @desc update the current owner
 // @access Private for any user
@@ -147,7 +189,7 @@ router.post(
     if (req.body.mobile) ownerFields.mobile = req.body.mobile;
     if (req.body.social_media) ownerFields.social_media = req.body.social_media;
 
-    Owner.findOne({ _id:req.params.owner_id })
+    Owner.findOne({ _id: req.params.owner_id })
       .then(owner => {
         if (owner) {
           // if (req.owner.id === req.params.owner_id) {
@@ -169,9 +211,5 @@ router.post(
       .catch(err => console.log(err));
   }
 );
-
-
-
-
 
 module.exports = router;

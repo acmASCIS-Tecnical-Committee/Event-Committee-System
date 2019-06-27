@@ -1,3 +1,8 @@
+//TODO in validation -> material can't the same store for one material
+//TODO  add valied (messeage || return)
+//TODO clean code
+//TODO update comment
+
 //To use Router
 const express = require("express");
 //To acsses GET && POST Requests from Router
@@ -7,11 +12,9 @@ const Space = require("../../models/space");
 // to authenticate the private routes
 const passport = require("passport");
 
-
 //test
 // built in function to check on empty objects
 const isEmpty = require("../../validation/is_empty");
-
 
 //To use Validation unction
 const validateSpaceInput = require("../../validation/space");
@@ -103,11 +106,10 @@ router.delete(
 // 200 : if the space is found successfully and all it's data
 // reutrn JSON of the requested space => {name:,email:,notes:,address:,mobile:,opening:,rooms:,connections:,social_media:}
 router.get("/:space_id", (req, res) => {
-
-//for test ****************************************************
+  //for test ****************************************************
   // if(isEmpty(req.body.pp) )
   //   console.log( typeof(req.body.pp)+"   empty");
-  // else 
+  // else
   //   console.log( typeof(req.body.pp)+"  not empty");
 
   //       *****************************************************
@@ -139,10 +141,6 @@ router.get("/:space_id", (req, res) => {
     );
 });
 
-
-
-
-
 // @route Post api/space/update/:space_id
 // @desc update the current space
 // @access Private for any user
@@ -170,9 +168,7 @@ router.post(
     if (req.body.opening) spaceFields.opening = req.body.opening;
     if (req.body.social_media) spaceFields.social_media = req.body.social_media;
 
-
-
-    Space.findOne({ _id:req.params.space_id })
+    Space.findOne({ _id: req.params.space_id })
       .then(space => {
         if (space) {
           // if (req.space.id === req.params.space_id) {
@@ -194,6 +190,5 @@ router.post(
       .catch(err => console.log(err));
   }
 );
-
 
 module.exports = router;

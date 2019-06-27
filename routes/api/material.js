@@ -1,5 +1,7 @@
-//TODO in validation -> material can't the same store for one material 
-
+//TODO in validation -> material can't the same store for one material
+//TODO  add valied (messeage || return)
+//TODO clean code
+//TODO update comment
 
 // to use Router
 const express = require("express");
